@@ -12,6 +12,16 @@ const userSchema = new mongoose.Schema({
     require: true,
     unique: true
   },
+  password: {
+    type: String,
+    require: true,
+    unique: false
+  },
+  role: {
+    type: Number,
+    require: true,
+    unique: false
+  },
   createdAt: {
     type: Date,
     default: Date.now,
