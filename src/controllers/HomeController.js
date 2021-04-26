@@ -1,7 +1,9 @@
-class HomeController{
+const User = require('../models/Users');
 
-  async index(req, res){
-      res.send("APP EXPRESS!");
+class HomeController {
+
+  async index(req, res) {
+    res.send("APP EXPRESS!");
   }
 
 }
