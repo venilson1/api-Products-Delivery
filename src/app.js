@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
-/** CORS */
-// const connectDB = require('./database/Connection');
+const connectDB = require('./database/Connection');
 const router = require("./routers");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// connectDB();
+connectDB();
 
 app.use(router);
 

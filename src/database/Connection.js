@@ -1,19 +1,22 @@
-const mongoClient = require('mongoose');
+const mongoose = require('mongoose');
 require('dotenv').config()
 
-const URI = process.env.MONGODB_URI
+const ATLAS_URI = process.env.MONGODBATLAS_URI;
+
+const connectionParams = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true 
+}
 
 const connectDB = async () => {
   try {
-    await mongoClient.connect(
-      URI,
-      {
-        useUnifiedTopology: true,
-        useNewUrlParser: true
-      });
+    mongoose.connect(
+      ATLAS_URI,
+      connectionParams);
     console.log('database connected!');
   } catch (err) {
-    console.log(`ERROR: ${err}`);
+    console.log(`ERROR: \n${err}`);
   }
 }
 

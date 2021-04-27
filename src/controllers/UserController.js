@@ -1,3 +1,5 @@
+const userServices = require('../services/userServices');
+
 class UserController {
 
   async index(req, res){
@@ -8,15 +10,16 @@ class UserController {
   }
 
   async create(req, res){
-    console.log(req.body);
-
     const {name, email, password} =  req.body;
 
-    if (!name) res.status(400).send({err: "O nome está invalido"});
-    if (!email) res.status(400).send({err: "O e-mail está invalido"});
-    if (!password) res.status(400).send({err: "Senha invalida"});
+    if (!name) res.status(400).json({err: "O nome está invalido"});
+    if (!email) res.status(400).json({err: "O e-mail está invalido"});
+    if (!password) res.status(400).json({err: "Senha invalida"});
 
-    res.status(200).send(req.body);
+    const status = await userServices.Create(name, email, password);
+
+
+    res.status(200).send(status);
   }
 }
 
