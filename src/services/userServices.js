@@ -23,6 +23,13 @@ class userServices{
     return emailExists;
   }
 
+  async findAllUsers(){
+    let allUsers = await User.find({}, { password: 0 })
+
+
+    return allUsers;
+  }
+
 }
 
 module.exports = new userServices();

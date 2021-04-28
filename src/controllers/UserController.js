@@ -4,9 +4,11 @@ const bcrypt = require('bcrypt')
 class UserController {
 
   async index(req, res){
+
+    const allUsers =  await userServices.findAllUsers()
+
     res.send({
-      name: "venilson",
-      email: "venilson2009@hotmail.com"
+      allUsers
     });
   }
 
