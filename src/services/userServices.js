@@ -1,21 +1,26 @@
 const User = require('../models/Users');
 
-class userServices {
+class userServices{
   
-  async Create(name, email, password){
+  async Create(name, email, password, role){
     const newUser = new User({
       name,
       email,
-      password
+      password,
+      role
     });
 
     try {
       await newUser.save();
-      return true;
     } catch (error) {
       console.log(error);
-      return false;
     }
+  }
+
+  async findEmail(email){
+    const emailExists = await User.findOne({ email })
+
+    return emailExists;
   }
 
 }
