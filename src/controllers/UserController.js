@@ -12,6 +12,16 @@ class UserController {
     });
   }
 
+  async getUserById(req, res){
+    let id =  req.params.id;
+    const usersById = await userServices.findUserId(id)
+
+    res.send({
+      usersById
+    })
+
+  }
+
   async newUser(req, res){
     let {name, email, password, role} =  req.body;
 

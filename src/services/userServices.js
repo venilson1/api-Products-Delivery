@@ -19,16 +19,18 @@ class userServices{
 
   async findEmail(email){
     const emailExists = await User.findOne({ email })
-
     return emailExists;
   }
 
   async findAllUsers(){
     let allUsers = await User.find({}, { password: 0 })
-
-
     return allUsers;
   }
+
+  async findUserId(id){
+    let usersById = await User.findById(id, { password: 0 })
+    return usersById;
+  } 
 
 }
 
