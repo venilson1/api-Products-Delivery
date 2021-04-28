@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 
 class UserController {
 
-  async index(req, res){
+  async getAllUsers(req, res){
 
     const allUsers =  await userServices.findAllUsers()
 

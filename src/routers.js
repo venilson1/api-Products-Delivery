@@ -4,7 +4,7 @@ const HomeController = require("./controllers/HomeController");
 const UserController = require('./controllers/UserController')
 
 router.get('/', HomeController.index);
-router.get('/users', UserController.index);
+router.get('/users', UserController.getAllUsers);
 router.post('/users', UserController.newUser);
 
 module.exports = router;
