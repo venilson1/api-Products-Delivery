@@ -15,15 +15,17 @@ class UserController {
   async getUserById(req, res){
     let id =  req.params.id;
     const usersById = await userServices.findUserId(id)
-
-    res.send({
-      usersById
-    })
+    
+    if (usersById == undefined) {
+      res.status(404).json({})
+    } else{
+      res.status(200).json({ usersById })
+    }
 
   }
 
   async newUser(req, res){
-    let {name, email, password, role} =  req.body;
+    let {name, email, password, role} = req.body;
 
     if (!name) res.status(400).json({err: "O nome está invalido"});
     if (!email) res.status(400).json({err: "O e-mail está invalido"});
