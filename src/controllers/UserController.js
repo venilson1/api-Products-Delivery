@@ -1,5 +1,5 @@
 const userServices = require('../services/userServices');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 
 class UserController {
 
@@ -21,7 +21,6 @@ class UserController {
     } else{
       res.status(200).json({ usersById })
     }
-
   }
 
   async newUser(req, res){
@@ -49,6 +48,24 @@ class UserController {
     catch (error) 
     {
       console.log(error);
+    }
+  }
+
+  async edit(req, res){
+
+    let id = req.params.id; 
+    let {name, email, role } = req.body;
+
+    var result = await userServices.update(id, name, email, role)
+
+    if(result != undefined){
+      if (result.status) {
+        res.status(200).send(result.status)
+      } else{
+        res.status(406).send(result.error)
+      }
+    } else{
+      res.status(406).send('Erro no servidor')
     }
   }
 }

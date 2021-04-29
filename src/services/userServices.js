@@ -20,18 +20,50 @@ class userServices {
 
   async findUserId(id) {
     //verificando id valido
-    if(id.match(/^[0-9a-fA-F]{24}$/)){
-      
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+
       try {
-        let usersById = await User.findById({ _id : id}, { password: 0 })
+        let usersById = await User.findById({ id }, { password: 0 })
         return usersById;
       } catch (error) {
         console.log(error);
         return undefined;
       }
+    }
+  }
 
-    } 
+  async update(id, name, email, role) {
 
+    const user = ({ name: name, email: email, role: role })
+
+    if (user != undefined) {
+
+      var editUser = {}
+
+      if (email) {
+        const result = await this.findEmail(email);
+        console.log(result);
+        if (result === null) {
+          editUser.email = email;
+        } else{
+          return { status: false, error: "O email já está cadastrado" }
+        }
+      }
+
+      if (name) {
+        editUser.name = name;
+      }
+
+      if (role) {
+        editUser.role = role;
+      }
+
+    await User.findByIdAndUpdate(id, editUser)
+    return { status: true }
+
+    } else{
+      return { status: false, error: "O usuário não existe" }
+    }
   }
 }
 
