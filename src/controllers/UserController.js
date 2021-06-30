@@ -68,6 +68,18 @@ class UserController {
       res.status(406).send('Erro no servidor')
     }
   }
+
+  async remove(req, res){
+    let id = req.params.id;
+
+    var result = await userServices.delete(id);
+
+    if (result.status) {
+      res.status(200).send(result.status)
+    } else{
+      res.status(406).send(result.error)
+    }
+  }
 }
 
 module.exports = new UserController;

@@ -45,7 +45,7 @@ class userServices {
         console.log(result);
         if (result === null) {
           editUser.email = email;
-        } else{
+        } else {
           return { status: false, error: "O email já está cadastrado" }
         }
       }
@@ -58,11 +58,26 @@ class userServices {
         editUser.role = role;
       }
 
-    await User.findByIdAndUpdate(id, editUser)
-    return { status: true }
+      await User.findByIdAndUpdate(id, editUser)
+      return { status: true }
 
-    } else{
+    } else {
       return { status: false, error: "O usuário não existe" }
+    }
+  }
+
+  async delete(id){
+    const user = await this.findUserId(id);
+
+    if (!user) {
+      return {status: false, err: "usuario não encontrad!"}
+    } 
+
+    try {
+      await User.findByIdAndDelete(id)
+      return {status: true }
+    } catch (error) {
+      return {status: false}
     }
   }
 }
