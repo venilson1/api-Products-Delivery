@@ -17,7 +17,7 @@ $ cd api-usuario
 # Instale as dependências
 $ npm install
 
-# Crie um arquivo .env
-$ cole as querystring para acessar o mongoDB
+# crie um arquivo .env
+- dentro do arquivo cole sua querystring para dar acesso ao banco de dados
 ```
 
