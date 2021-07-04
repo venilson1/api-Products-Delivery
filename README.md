@@ -5,6 +5,13 @@ Api de usuarios com JWT, persistindo os dados no banco de dados mongoDb atlas.
 
 # PROJETO EM DESENVOLVIMENTO 🚧🚧🚧
 
+### Features
+
+- [x] CRUD
+- [ ] JWT
+- [ ] NodeMaile
+- [ ] Login
+
 ### Rodando o servidor 🚀
 
 ```bash
