@@ -16,4 +16,8 @@ $ cd api-usuario
 
 # Instale as dependências
 $ npm install
+
+# crie um arquivo .env
+- dentro do arquivo cole sua querystring para dar acesso ao banco de dados
 ```
+
