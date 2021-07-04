@@ -18,6 +18,5 @@ $ cd api-usuario
 $ npm install
 
 # crie um arquivo .env
-- dentro do arquivo cole sua querystring para dar acesso ao banco de dados
 ```
 
