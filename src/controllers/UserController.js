@@ -26,10 +26,22 @@ class UserController {
   async newUser(req, res){
     let {name, email, password, role} = req.body;
 
-    if (!name) res.status(400).json({err: "O nome está invalido"});
-    if (!email) res.status(400).json({err: "O e-mail está invalido"});
-    if (!password) res.status(400).json({err: "Senha invalida"});
-    if (!role) role = 0;
+    if (!name) {
+      res.status(400).send({err: "O nome está invalido"});
+      return;
+    }
+    if (!email) {
+      res.status(400).send({err: "O e-mail está invalido"});
+      return;
+    }
+    if (!password) {
+      res.status(400).send({err: "Senha invalida"});
+      return;
+    }
+    if (!role || role > 3) {
+      res.status(400).send({err: "Função está invalida"});
+      return;
+    }
 
     let emailExists =  await userServices.findEmail(email);
 
