@@ -67,18 +67,15 @@ class userServices {
   }
 
   async delete(id){
-    const user = await this.findUserId(id);
 
-    if (!user) {
-      return {status: false, err: "usuario não encontrad!"}
-    } 
-
-    try {
-      await User.findByIdAndDelete(id)
-      return {status: true }
-    } catch (error) {
-      return {status: false}
-    }
+      try {
+        await User.findByIdAndDelete(id)
+        return {status: true }
+      } 
+      catch (error) {
+        return { status: false, error: "O usuário não existe" }
+      }
+   
   }
 }
 
