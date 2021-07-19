@@ -7,9 +7,9 @@ Api de usuarios, persistindo os dados no banco de dados mongoDb atlas.
 ### Features
 
 - [x] CRUD
-- [ ] JWT
+- [x] JWT
 - [ ] NodeMaile
-- [ ] Login
+- [x] Login
 - [ ] Swagger UI
 
 ### Rodando o servidor 🚀
