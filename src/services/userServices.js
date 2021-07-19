@@ -2,7 +2,7 @@ const User = require('../models/Users');
 
 class userServices {
 
-  async Create(name, email, password, role) {
+  async register(name, email, password, role) {
     const newUser = new User({ name, email, password, role });
     let user = await newUser.save();
     return user;
@@ -42,7 +42,6 @@ class userServices {
 
       if (email) {
         const result = await this.findEmail(email);
-        console.log(result);
         if (result === null) {
           editUser.email = email;
         } else {
@@ -67,7 +66,6 @@ class userServices {
   }
 
   async delete(id){
-
       try {
         await User.findByIdAndDelete(id)
         return {status: true }
