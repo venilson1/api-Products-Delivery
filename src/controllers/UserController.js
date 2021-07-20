@@ -8,6 +8,7 @@ class UserController {
     const allUsers =  await userServices.findAllUsers()
 
     res.send({
+      welcome: req.loggedEmail,
       allUsers
     });
   }
@@ -53,7 +54,7 @@ class UserController {
     try 
     {
       let hash = await bcrypt.hash(password, 10);
-      const status = await userServices.Create(name, email, password = hash, role);
+      const status = await userServices.register(name, email, password = hash, role);
       res.status(200).send(status);
     } 
 

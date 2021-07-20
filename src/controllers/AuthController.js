@@ -2,15 +2,16 @@ const authServices = require('../services/authServices');
 const bcrypt = require('bcrypt');
 const User = require('../models/Users');
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 
-const JWTSecret = "oratoroeuaroupadoreideroma"
+const JWTSecret = process.env.SECRET_JWT
 
 class AuthController {
 
   async login(req, res) {
 
-    const {id, email, password} = req.body;
+    const {email, password} = req.body;
 
     if(email != undefined){
 
@@ -23,8 +24,10 @@ class AuthController {
 
           if(validPassword){
 
+            console.log(emailExists._id)
+
             jwt.sign(
-              {id: id, email: email}, 
+              {email: email}, 
               JWTSecret, 
               {expiresIn: '48h'}, (err, token) => {
                 if(err){
