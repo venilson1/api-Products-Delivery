@@ -1,9 +1,16 @@
 # Api de Usuarios
 
-Api de usuarios com JWT, persistindo os dados no banco de dados mongoDb atlas.
-
+Api de usuarios, persistindo os dados no banco de dados mongoDb atlas.
 
 # PROJETO EM DESENVOLVIMENTO 🚧🚧🚧
+
+### Features
+
+- [x] CRUD
+- [x] JWT
+- [ ] NodeMaile
+- [x] Login
+- [ ] Swagger UI
 
 ### Rodando o servidor 🚀
 
@@ -18,6 +25,5 @@ $ cd api-usuario
 $ npm install
 
 # crie um arquivo .env
-- dentro do arquivo cole sua querystring para dar acesso ao banco de dados
 ```
 
