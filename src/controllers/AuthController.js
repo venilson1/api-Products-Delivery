@@ -1,12 +1,16 @@
 const authServices = require('../services/authServices');
 const bcrypt = require('bcrypt');
 const User = require('../models/Users');
+const jwt = require('jsonwebtoken');
+
+
+const JWTSecret = "oratoroeuaroupadoreideroma"
 
 class AuthController {
 
   async login(req, res) {
 
-    const {email, password} = req.body;
+    const {id, email, password} = req.body;
 
     if(email != undefined){
 
@@ -18,7 +22,17 @@ class AuthController {
         if(password != undefined){
 
           if(validPassword){
-            res.status(200).json({token: "TOKEN FALSO"})
+
+            jwt.sign(
+              {id: id, email: email}, 
+              JWTSecret, 
+              {expiresIn: '48h'}, (err, token) => {
+                if(err){
+                  res.status(400).json({err: 'falha interna'})
+                } else{
+                  res.status(200).json({token: token})
+                }
+            })
           } else{
             res.status(400).json({err: "Credenciais invalidas"})
           }
@@ -27,7 +41,6 @@ class AuthController {
           res.status(401).json({err: "Senha invalida"})
         }
 
-
       } else{
         res.status(404).json({err: "usuário não encontrado"})
       }
@@ -35,9 +48,6 @@ class AuthController {
     } else{
       res.status(400).json({err: "E-mail invalido"})
     }
-
-    // const allUsers =  await authServices.auth(email, password)
-    // console.log(allUsers)
 
   }
 
