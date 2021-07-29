@@ -3,8 +3,14 @@ const productServices = require('../services/productServices');
 
 class ProductController{
 
-  async index(req, res) {
-    res.send("Rota de Usuarios");
+  async index(req, res){
+
+    const products =  await productServices.findProducts();
+
+    res.send({
+      welcome: req.loggedEmail,
+      products
+    });
   }
 
   async newProduct(req, res){
