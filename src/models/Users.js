@@ -1,33 +1,33 @@
-const mongoose = require('mongoose');
-mongoose.set('useCreateIndex', true);
+const mongoose = require("mongoose");
+mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
-    unique: false
+    unique: false,
   },
   email: {
     type: String,
     require: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
     require: true,
-    unique: false
+    unique: false,
   },
   role: {
     type: Number,
     require: true,
-    unique: false
+    unique: false,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    unique: false
-  }
+    unique: false,
+  },
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 module.exports = User;
