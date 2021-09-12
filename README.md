@@ -23,7 +23,7 @@ Api de produtos, com funcionalidade de autenticação para o adm do sistema, per
 $ git clone https://github.com/venilson1/api-Users-JWT.git
 
 # Acesse a pasta do projeto no terminal
-$ cd api-usuario
+$ cd api-Products-Delivery
 
 # Instale as dependências
 $ npm install
