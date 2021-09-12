@@ -10,7 +10,7 @@ Api de produtos, com funcionalidade de autenticação para o adm do sistema, per
 - [x] Produtos
 - [ ] Pedidos
 - [ ] Clientes
-- [x] hospedagem de imagens cloudinary
+- [x] upload nuvem cloudinary
 - [x] JWT
 - [ ] NodeMaile
 - [x] Login
