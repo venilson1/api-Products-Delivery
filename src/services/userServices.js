@@ -21,7 +21,7 @@ class userServices {
     //verificando id valido
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
       try {
-        let usersById = await User.findById({ id }, { password: 0 });
+        let usersById = await User.findById(id);
         return usersById;
       } catch (error) {
         console.log(error);
@@ -34,7 +34,7 @@ class userServices {
     const user = { name: name, email: email, role: role };
 
     if (user != undefined) {
-      var editUser = {};
+      let editUser = {};
 
       if (email) {
         const result = await this.findEmail(email);
@@ -53,7 +53,7 @@ class userServices {
         editUser.role = role;
       }
 
-      await User.findByIdAndUpdate(id, editUser);
+      await User.findByIdAndUpdate(id, { $set: editUser });
       return { status: true };
     } else {
       return { status: false, error: "O usuário não existe" };

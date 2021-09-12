@@ -11,12 +11,14 @@ router.get("/", HomeController.index);
 router.get("/users", UserController.getAllUsers);
 router.get("/users/:id", UserController.getUserById);
 router.post("/users", UserController.newUser);
-router.put("/users/:id", UserController.edit);
+router.patch("/users/:id", UserController.edit);
 router.delete("/users/:id", UserController.remove);
 
 router.post("/auth", AuthController.login);
 
 router.get("/products", ProductController.index);
 router.post("/products", upload.single("path"), ProductController.newProduct);
+router.get("/products/:id", ProductController.getProductById);
+router.patch("/products/:id", upload.single("path"), ProductController.edit);
 
 module.exports = router;
