@@ -1,12 +1,16 @@
-# Api de Usuarios
+# Api de Produtos para delivery
 
-Api de usuarios, persistindo os dados no banco de dados mongoDb atlas.
+Api de produtos, com funcionalidade de autenticação para o adm do sistema, permitindo realizar um crud com imagens hospedando elas no cloudinary.
 
 # PROJETO EM DESENVOLVIMENTO 🚧🚧🚧
 
 ### Features
 
-- [x] CRUD
+- [x] Admin
+- [x] Produtos
+- [ ] Pedidos
+- [ ] Clientes
+- [x] hospedagem de imagens cloudinary
 - [x] JWT
 - [ ] NodeMaile
 - [x] Login
