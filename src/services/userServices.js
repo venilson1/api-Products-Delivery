@@ -1,7 +1,6 @@
-const User = require('../models/Users');
+const User = require("../models/Users");
 
 class userServices {
-
   async register(name, email, password, role) {
     const newUser = new User({ name, email, password, role });
     let user = await newUser.save();
@@ -9,21 +8,20 @@ class userServices {
   }
 
   async findEmail(email) {
-    const emailExists = await User.findOne({ email })
+    const emailExists = await User.findOne({ email });
     return emailExists;
   }
 
   async findAllUsers() {
-    let allUsers = await User.find({}, { password: 0 })
+    let allUsers = await User.find({}, { password: 0 });
     return allUsers;
   }
 
   async findUserId(id) {
     //verificando id valido
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
-
       try {
-        let usersById = await User.findById({ id }, { password: 0 })
+        let usersById = await User.findById({ id }, { password: 0 });
         return usersById;
       } catch (error) {
         console.log(error);
@@ -33,19 +31,17 @@ class userServices {
   }
 
   async update(id, name, email, role) {
-
-    const user = ({ name: name, email: email, role: role })
+    const user = { name: name, email: email, role: role };
 
     if (user != undefined) {
-
-      var editUser = {}
+      var editUser = {};
 
       if (email) {
         const result = await this.findEmail(email);
         if (result === null) {
           editUser.email = email;
         } else {
-          return { status: false, error: "O email já está cadastrado" }
+          return { status: false, error: "O email já está cadastrado" };
         }
       }
 
@@ -57,23 +53,20 @@ class userServices {
         editUser.role = role;
       }
 
-      await User.findByIdAndUpdate(id, editUser)
-      return { status: true }
-
+      await User.findByIdAndUpdate(id, editUser);
+      return { status: true };
     } else {
-      return { status: false, error: "O usuário não existe" }
+      return { status: false, error: "O usuário não existe" };
     }
   }
 
-  async delete(id){
-      try {
-        await User.findByIdAndDelete(id)
-        return {status: true }
-      } 
-      catch (error) {
-        return { status: false, error: "O usuário não existe" }
-      }
-   
+  async delete(id) {
+    try {
+      await User.findByIdAndDelete(id);
+      return { status: true };
+    } catch (error) {
+      return { status: false, error: "O usuário não existe" };
+    }
   }
 }
 
