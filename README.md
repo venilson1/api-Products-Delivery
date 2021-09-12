@@ -1,6 +1,6 @@
 # Api de Produtos para delivery
 
-Api de produtos, com funcionalidade de autenticação para o adm do sistema, permitindo realizar um crud com imagens hospedando elas no cloudinary.
+api de produtos para delivery. Nele é encontrado sistema de autenticação com jwt de usuarios admin permitindo gerenciar o crud de produtos persistindo os dados no mongoAtlas.
 
 # PROJETO EM DESENVOLVIMENTO 🚧🚧🚧
 
