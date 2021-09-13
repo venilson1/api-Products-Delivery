@@ -84,6 +84,28 @@ class ClientController {
       console.log(error);
     }
   }
+
+  async edit(req, res) {
+    let id = req.params.id;
+    let { name, address, complement, reference, email, telephone } = req.body;
+
+    const clientById = await clientServices.findClientId(id);
+
+    if (clientById) {
+      var result = await clientServices.update(
+        id,
+        name,
+        address,
+        complement,
+        reference,
+        email,
+        telephone
+      );
+      res.status(200).send(result.status);
+    } else {
+      res.status(404).json({});
+    }
+  }
 }
 
 module.exports = new ClientController();

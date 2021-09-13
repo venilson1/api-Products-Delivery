@@ -45,6 +45,56 @@ class ClientServices {
     let client = newClient.save();
     return client;
   }
+
+  async update(id, name, address, complement, reference, email, telephone) {
+    const client = {
+      name,
+      address,
+      complement,
+      reference,
+      email,
+      telephone,
+    };
+
+    if (client != undefined) {
+      let editClient = {};
+
+      if (name) {
+        editClient.name = name;
+      }
+
+      if (address) {
+        editClient.address = address;
+      }
+
+      if (complement) {
+        editClient.complement = complement;
+      }
+
+      if (reference) {
+        editClient.reference = reference;
+      }
+
+      if (email) {
+        const emailExists = await this.findEmail(email);
+
+        if (emailExists === null) {
+          editClient.email = email;
+        } else {
+          return { status: false, error: "O email já está cadastrado" };
+        }
+      }
+
+      if (telephone) {
+        editClient.telephone = telephone;
+      }
+
+      await Client.findByIdAndUpdate(id, { $set: editClient });
+      return { status: true };
+    } else {
+      return { status: false, error: "O cliente não existe" };
+    }
+  }
 }
 
 module.exports = new ClientServices();
