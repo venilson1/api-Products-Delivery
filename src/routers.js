@@ -6,6 +6,7 @@ const AuthController = require("./controllers/AuthController");
 const ProductController = require("./controllers/ProductController");
 const upload = require("./middleware/upload");
 const auth = require("./middleware/auth");
+const ClientController = require("./controllers/ClientController");
 
 router.get("/", HomeController.index);
 router.get("/users", UserController.getAllUsers);
@@ -21,5 +22,7 @@ router.post("/products", upload.single("path"), ProductController.newProduct);
 router.get("/products/:id", ProductController.getProductById);
 router.patch("/products/:id", upload.single("path"), ProductController.edit);
 router.delete("/products/:id", ProductController.remove);
+
+router.get("/clients", ClientController.index);
 
 module.exports = router;
