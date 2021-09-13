@@ -19,7 +19,7 @@ class ProductServices {
     }
   }
 
-  async create(name, description, price, promotion, discount, path) {
+  async register(name, description, price, promotion, discount, path) {
     const newProduct = new Product({
       name,
       description,

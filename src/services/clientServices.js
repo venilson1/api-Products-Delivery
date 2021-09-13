@@ -6,6 +6,11 @@ class ClientServices {
     return clients;
   }
 
+  async findEmail(email) {
+    const emailExists = await Client.findOne({ email });
+    return emailExists;
+  }
+
   async findClientId(id) {
     //verificando id valido
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -17,6 +22,28 @@ class ClientServices {
         return undefined;
       }
     }
+  }
+
+  async register(
+    name,
+    address,
+    complement,
+    reference,
+    email,
+    password,
+    telephone
+  ) {
+    const newClient = new Client({
+      name,
+      address,
+      complement,
+      reference,
+      email,
+      password,
+      telephone,
+    });
+    let client = newClient.save();
+    return client;
   }
 }
 

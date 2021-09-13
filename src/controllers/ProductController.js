@@ -55,7 +55,7 @@ class ProductController {
         { public_id: filename, width: 400, height: 250, crop: "scale" },
         async (error, result) => {
           const { url } = result;
-          const status = await productServices.create(
+          const status = await productServices.register(
             name,
             description,
             price,
