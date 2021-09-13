@@ -95,6 +95,15 @@ class ClientServices {
       return { status: false, error: "O cliente não existe" };
     }
   }
+
+  async delete(id) {
+    try {
+      await Client.findByIdAndDelete(id);
+      return { status: true };
+    } catch (error) {
+      return { status: false, error: "O cliente não existe" };
+    }
+  }
 }
 
 module.exports = new ClientServices();

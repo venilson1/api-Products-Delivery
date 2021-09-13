@@ -106,6 +106,19 @@ class ClientController {
       res.status(404).json({});
     }
   }
+
+  async remove(req, res) {
+    let id = req.params.id;
+
+    const clientById = await clientServices.findClientId(id);
+
+    if (clientById) {
+      const clientById = await clientServices.delete(id);
+      res.status(200).json({ clientById });
+    } else {
+      res.status(404).json({});
+    }
+  }
 }
 
 module.exports = new ClientController();

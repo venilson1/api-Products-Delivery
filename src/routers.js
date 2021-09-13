@@ -27,5 +27,6 @@ router.get("/clients", ClientController.index);
 router.post("/clients", ClientController.newClient);
 router.get("/clients/:id", ClientController.getClientById);
 router.patch("/clients/:id", ClientController.edit);
+router.delete("/clients/:id", ClientController.remove);
 
 module.exports = router;
