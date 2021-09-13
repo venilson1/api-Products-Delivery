@@ -20,5 +20,6 @@ router.get("/products", ProductController.index);
 router.post("/products", upload.single("path"), ProductController.newProduct);
 router.get("/products/:id", ProductController.getProductById);
 router.patch("/products/:id", upload.single("path"), ProductController.edit);
+router.delete("/products/:id", ProductController.remove);
 
 module.exports = router;

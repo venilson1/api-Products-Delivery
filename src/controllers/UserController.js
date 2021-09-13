@@ -67,28 +67,26 @@ class UserController {
     let id = req.params.id;
     let { name, email, role } = req.body;
 
-    var result = await userServices.update(id, name, email, role);
+    const userById = await userServices.findUserId(id);
 
-    if (result != undefined) {
-      if (result.status) {
-        res.status(200).send(result.status);
-      } else {
-        res.status(406).send(result.error);
-      }
+    if (userById) {
+      var result = await userServices.update(id, name, email, role);
+      res.status(200).send(result.status);
     } else {
-      res.status(406).send("Erro no servidor");
+      res.status(404).json({});
     }
   }
 
   async remove(req, res) {
     let id = req.params.id;
 
-    var result = await userServices.delete(id);
+    const userById = await userServices.findUserId(id);
 
-    if (result.status) {
-      res.status(200).send(result.status);
+    if (userById) {
+      const userById = await userServices.delete(id);
+      res.status(200).json({ userById });
     } else {
-      res.status(406).send(result.error);
+      res.status(404).json({});
     }
   }
 }

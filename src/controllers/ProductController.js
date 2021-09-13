@@ -76,39 +76,46 @@ class ProductController {
     let id = req.params.id;
     let { name, description, price, promotion, discount } = req.body;
 
-    try {
-      cloudinary.v2.uploader.upload(
-        path,
-        { public_id: filename, width: 400, height: 250, crop: "scale" },
-        async (error, result) => {
-          const { url } = result;
+    const productById = await productServices.findProductId(id);
 
-          var status = await productServices.update(
-            id,
-            name,
-            description,
-            price,
-            promotion,
-            discount,
-            url
-          );
-          res.status(200).send(status);
-        }
-      );
-    } catch (error) {
-      console.log(error);
+    if (productById) {
+      try {
+        cloudinary.v2.uploader.upload(
+          path,
+          { public_id: filename, width: 400, height: 250, crop: "scale" },
+          async (error, result) => {
+            const { url } = result;
+
+            const productUpdated = await productServices.update(
+              id,
+              name,
+              description,
+              price,
+              promotion,
+              discount,
+              url
+            );
+            res.status(200).send(productUpdated);
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      res.status(404).json({});
     }
   }
 
   async remove(req, res) {
     let id = req.params.id;
 
-    var result = await productServices.delete(id);
+    const productById = await productServices.findProductId(id);
 
-    if (result.status) {
-      res.status(200).send(result.status);
+    if (productById) {
+      const productById = await productServices.delete(id);
+      res.status(200).json({ productById });
     } else {
-      res.status(406).send(result.error);
+      res.status(404).json({});
     }
   }
 }
