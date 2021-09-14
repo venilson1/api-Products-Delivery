@@ -1,12 +1,15 @@
 const multer = require("multer");
 const path = require("path");
 const crypto = require("crypto");
+const ImageInsideFolder = require("../utils/imageInsideFolder");
+const dirPath = path.join(process.cwd(), "/src/uploads");
 
 const upload = multer({
   dest: path.resolve(__dirname, "..", "uploads"),
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.resolve(__dirname, "..", "uploads"));
+      cb(null, path.resolve(__dirname, "..", "uploads")),
+        ImageInsideFolder.remove(dirPath);
     },
     filename: (req, file, cb) => {
       crypto.randomBytes(16, (err, hash) => {
