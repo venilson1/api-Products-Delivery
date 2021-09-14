@@ -6,7 +6,7 @@ class UserController {
     const allUsers = await userServices.findAllUsers();
 
     res.send({
-      welcome: req.loggedEmail,
+      welcome: req.loggedName,
       allUsers,
     });
   }
