@@ -50,8 +50,7 @@ class AdminController {
       const status = await adminServices.register(
         name,
         email,
-        (password = hash),
-        role
+        (password = hash)
       );
       res.status(200).send(status);
     } catch (error) {

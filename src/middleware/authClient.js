@@ -18,6 +18,7 @@ const auth = (req, res, next) => {
         req.token = token;
         console.log(data);
         req.loggedName = { name: data.name };
+        req.clientId = { name: data.id };
         next();
       }
     });

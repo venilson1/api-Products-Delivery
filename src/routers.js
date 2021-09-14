@@ -21,7 +21,7 @@ router.post("/users", AdminController.newAdmin);
 router.patch("/users/:id", AdminController.edit);
 router.delete("/users/:id", AdminController.remove);
 
-router.get("/products", ProductController.index);
+router.get("/products", authClient, ProductController.index);
 // prettier-ignore
 router.post("/products", upload.single("path"), ProductController.newProduct);
 router.get("/products/:id", ProductController.getProductById);
