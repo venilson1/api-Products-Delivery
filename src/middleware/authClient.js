@@ -16,9 +16,8 @@ const auth = (req, res, next) => {
         res.status(500).json({ auth: false, err: "token inválido" });
       } else {
         req.token = token;
-        console.log(data);
         req.loggedName = { name: data.name };
-        req.clientId = { name: data.id };
+        req.loggedUserId = { userId: data.id };
         next();
       }
     });

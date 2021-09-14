@@ -6,7 +6,16 @@ const orderSchema = new mongoose.Schema({
     require: true,
     unique: false,
   },
-  order: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+  order: {
+    type: Object,
+    require: true,
+    unique: false,
+  },
+  stage: {
+    type: Number,
+    require: true,
+    unique: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

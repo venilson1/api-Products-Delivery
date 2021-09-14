@@ -36,7 +36,7 @@ router.patch("/clients/:id", ClientController.edit);
 router.delete("/clients/:id", ClientController.remove);
 
 router.get("/orders", OrderController.index);
-router.post("/orders", OrderController.newOrder);
+router.post("/orders", authClient, OrderController.newOrder);
 router.delete("/orders/:id", OrderController.remove);
 
 module.exports = router;

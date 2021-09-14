@@ -22,10 +22,17 @@ class OrderController {
   }
 
   async newOrder(req, res) {
-    let { clientId, order } = req.body;
+    let clientId = req.loggedUserId;
+    let orderBody = req.body;
+    let stage = 1;
+
+    if (Object.values(orderBody).length === 1) {
+      res.status(400).send({ err: "Pedido Vazio" });
+      return;
+    }
 
     try {
-      const status = await orderServices.register(clientId, order);
+      const status = await orderServices.register(clientId, orderBody, stage);
       res.status(200).send(status);
     } catch (error) {
       console.log(error);

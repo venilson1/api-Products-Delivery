@@ -19,8 +19,11 @@ class OrderServices {
     }
   }
 
-  async register(clientId, order) {
-    const newOrder = new Order({ clientId, order });
+  async register(clientId, orderBody, stage) {
+    const order = Object.assign({}, clientId, orderBody);
+    order.stage = stage;
+
+    const newOrder = new Order(order);
     let orders = newOrder.save();
     return orders;
   }
