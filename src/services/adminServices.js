@@ -21,8 +21,8 @@ class AdminServices {
     //verificando id valido
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
       try {
-        let AdminsById = await Admin.findById(id);
-        return AdminsById;
+        let adminById = await Admin.findById(id);
+        return adminById;
       } catch (error) {
         console.log(error);
         return undefined;

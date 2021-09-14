@@ -13,12 +13,12 @@ class AdminController {
 
   async getAdminById(req, res) {
     let id = req.params.id;
-    const AdminsById = await adminServices.findAdminId(id);
+    const adminById = await adminServices.findAdminId(id);
 
-    if (AdminsById == undefined) {
+    if (adminById == undefined) {
       res.status(404).json({});
     } else {
-      res.status(200).json({ AdminsById });
+      res.status(200).json({ adminById });
     }
   }
 

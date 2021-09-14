@@ -10,6 +10,17 @@ class OrderController {
     });
   }
 
+  async getOrderById(req, res) {
+    let id = req.params.id;
+    const orderById = await orderServices.findOrderId(id);
+
+    if (orderById == undefined) {
+      res.status(404).json({});
+    } else {
+      res.status(200).json({ orderById });
+    }
+  }
+
   async newOrder(req, res) {
     let { clientId, order } = req.body;
 
