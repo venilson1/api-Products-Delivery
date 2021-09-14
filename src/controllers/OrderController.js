@@ -6,7 +6,7 @@ class OrderController {
 
     res.send({
       allOrders,
-      welcome: req.loggedEmail,
+      welcome: req.loggedName,
     });
   }
 

@@ -6,7 +6,7 @@ class ProductController {
     const products = await productServices.findProducts();
 
     res.send({
-      welcome: req.loggedEmail,
+      welcome: req.loggedName,
       products,
     });
   }

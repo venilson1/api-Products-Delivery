@@ -1,24 +1,24 @@
 const bcrypt = require("bcrypt");
-const Admin = require("../models/Admins");
+const Client = require("../models/Clients");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const JWTSecret = process.env.SECRET_JWT_ADMIN;
+const JWTSecret = process.env.SECRET_JWT_CLIENT;
 
-class AuthAdminController {
+class AuthClientController {
   async login(req, res) {
     const { email, password } = req.body;
 
     if (email != undefined) {
-      const userExists = await Admin.findOne({ email });
+      const clientExists = await Client.findOne({ email });
 
-      if (userExists) {
+      if (clientExists) {
         const validPassword = await bcrypt.compare(
           password,
-          userExists.password
+          clientExists.password
         );
 
-        let payload = { id: userExists._id, name: userExists.name };
+        let payload = { id: clientExists._id, name: clientExists.name };
 
         if (password !== undefined) {
           if (validPassword) {
@@ -44,4 +44,4 @@ class AuthAdminController {
   }
 }
 
-module.exports = new AuthAdminController();
+module.exports = new AuthClientController();

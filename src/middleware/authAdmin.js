@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const JWTSecret = process.env.SECRET_JWT;
+const JWTSecret = process.env.SECRET_JWT_ADMIN;
 
 const auth = (req, res, next) => {
   const authToken = req.headers["authorization"];
@@ -17,7 +17,7 @@ const auth = (req, res, next) => {
       } else {
         req.token = token;
         console.log(data);
-        req.loggedEmail = { email: data.email };
+        req.loggedName = { name: data.name };
         next();
       }
     });

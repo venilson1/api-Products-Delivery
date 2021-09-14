@@ -1,28 +1,28 @@
-const userServices = require("../services/userServices");
+const adminServices = require("../services/adminServices");
 const bcrypt = require("bcrypt");
 
-class UserController {
-  async getAllUsers(req, res) {
-    const allUsers = await userServices.findAllUsers();
+class AdminController {
+  async getAllAdmins(req, res) {
+    const allAdmins = await adminServices.findAllAdmins();
 
     res.send({
       welcome: req.loggedName,
-      allUsers,
+      allAdmins,
     });
   }
 
-  async getUserById(req, res) {
+  async getAdminById(req, res) {
     let id = req.params.id;
-    const usersById = await userServices.findUserId(id);
+    const AdminsById = await adminServices.findAdminId(id);
 
-    if (usersById == undefined) {
+    if (AdminsById == undefined) {
       res.status(404).json({});
     } else {
-      res.status(200).json({ usersById });
+      res.status(200).json({ AdminsById });
     }
   }
 
-  async newUser(req, res) {
+  async newAdmin(req, res) {
     let { name, email, password, role } = req.body;
 
     if (!name) {
@@ -42,7 +42,7 @@ class UserController {
       return;
     }
 
-    let emailExists = await userServices.findEmail(email);
+    let emailExists = await adminServices.findEmail(email);
 
     if (emailExists) {
       res.status(406).json({ error: "Email já Cadastrado" });
@@ -51,7 +51,7 @@ class UserController {
 
     try {
       let hash = await bcrypt.hash(password, 10);
-      const status = await userServices.register(
+      const status = await adminServices.register(
         name,
         email,
         (password = hash),
@@ -67,10 +67,10 @@ class UserController {
     let id = req.params.id;
     let { name, email, role } = req.body;
 
-    const userById = await userServices.findUserId(id);
+    const AdminById = await adminServices.findAdminId(id);
 
-    if (userById) {
-      var result = await userServices.update(id, name, email, role);
+    if (AdminById) {
+      var result = await adminServices.update(id, name, email, role);
       res.status(200).send(result.status);
     } else {
       res.status(404).json({});
@@ -80,15 +80,15 @@ class UserController {
   async remove(req, res) {
     let id = req.params.id;
 
-    const userById = await userServices.findUserId(id);
+    const AdminById = await adminServices.findAdminId(id);
 
-    if (userById) {
-      const userById = await userServices.delete(id);
-      res.status(200).json({ userById });
+    if (AdminById) {
+      const AdminById = await adminServices.delete(id);
+      res.status(200).json({ AdminById });
     } else {
       res.status(404).json({});
     }
   }
 }
 
-module.exports = new UserController();
+module.exports = new AdminController();
