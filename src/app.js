@@ -3,8 +3,8 @@ const app = express();
 const connectDB = require("./database/Connection");
 const router = require("./routers");
 
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 connectDB();
 

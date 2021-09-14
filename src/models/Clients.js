@@ -23,7 +23,7 @@ const clientSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    require: true,
+    require: false,
     unique: false,
   },
   password: {

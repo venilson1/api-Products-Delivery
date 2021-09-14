@@ -7,6 +7,7 @@ const UserController = require("./controllers/UserController");
 const AuthController = require("./controllers/AuthController");
 const ProductController = require("./controllers/ProductController");
 const ClientController = require("./controllers/ClientController");
+const OrderController = require("./controllers/OrderController");
 
 router.get("/", HomeController.index);
 router.get("/users", UserController.getAllUsers);
@@ -28,5 +29,8 @@ router.post("/clients", ClientController.newClient);
 router.get("/clients/:id", ClientController.getClientById);
 router.patch("/clients/:id", ClientController.edit);
 router.delete("/clients/:id", ClientController.remove);
+
+router.get("/orders", OrderController.index);
+router.post("/orders", OrderController.newOrder);
 
 module.exports = router;

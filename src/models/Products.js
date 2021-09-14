@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    require: true,
+    require: false,
     unique: false,
   },
   price: {
@@ -18,12 +18,12 @@ const productSchema = new mongoose.Schema({
   },
   promotion: {
     type: Boolean,
-    require: true,
+    require: false,
     unique: false,
   },
   discount: {
     type: Number,
-    require: true,
+    require: false,
     unique: false,
   },
   path: {
