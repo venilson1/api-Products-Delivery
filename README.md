@@ -20,7 +20,7 @@ api de produtos para delivery. Nele é encontrado sistema de autenticação com 
 
 ```bash
 # Clone este repositório
-$ git clone https://github.com/venilson1/api-Users-JWT.git
+$ git clone https://github.com/venilson1/api-Products-Delivery.git
 
 # Acesse a pasta do projeto no terminal
 $ cd api-Products-Delivery
