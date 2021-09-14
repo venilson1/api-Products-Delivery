@@ -16,11 +16,6 @@ const adminSchema = new mongoose.Schema({
     require: true,
     unique: false,
   },
-  role: {
-    type: Number,
-    require: true,
-    unique: false,
-  },
   createdAt: {
     type: Date,
     default: Date.now,

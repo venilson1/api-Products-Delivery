@@ -1,8 +1,8 @@
 const Admin = require("../models/Admins");
 
 class AdminServices {
-  async register(name, email, password, role) {
-    const newAdmin = new Admin({ name, email, password, role });
+  async register(name, email, password) {
+    const newAdmin = new Admin({ name, email, password });
     let admin = await newAdmin.save();
     return admin;
   }
@@ -30,8 +30,8 @@ class AdminServices {
     }
   }
 
-  async update(id, name, email, role) {
-    const admin = { name: name, email: email, role: role };
+  async update(id, name, email, Admin) {
+    const admin = { name, email };
 
     if (admin != undefined) {
       let editAdmin = {};
@@ -47,10 +47,6 @@ class AdminServices {
 
       if (name) {
         editAdmin.name = name;
-      }
-
-      if (role) {
-        editAdmin.role = role;
       }
 
       await Admin.findByIdAndUpdate(id, { $set: editAdmin });

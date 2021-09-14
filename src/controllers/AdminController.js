@@ -23,7 +23,7 @@ class AdminController {
   }
 
   async newAdmin(req, res) {
-    let { name, email, password, role } = req.body;
+    let { name, email, password } = req.body;
 
     if (!name) {
       res.status(400).send({ err: "O nome está invalido" });
@@ -35,10 +35,6 @@ class AdminController {
     }
     if (!password) {
       res.status(400).send({ err: "Senha invalida" });
-      return;
-    }
-    if (!role || role > 3) {
-      res.status(400).send({ err: "Função está invalida" });
       return;
     }
 
@@ -65,12 +61,12 @@ class AdminController {
 
   async edit(req, res) {
     let id = req.params.id;
-    let { name, email, role } = req.body;
+    let { name, email } = req.body;
 
     const AdminById = await adminServices.findAdminId(id);
 
     if (AdminById) {
-      var result = await adminServices.update(id, name, email, role);
+      var result = await adminServices.update(id, name, email);
       res.status(200).send(result.status);
     } else {
       res.status(404).json({});
