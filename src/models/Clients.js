@@ -25,11 +25,13 @@ const clientSchema = new mongoose.Schema({
     type: String,
     require: false,
     unique: false,
+    lowercase: true,
   },
   password: {
     type: String,
     require: true,
     unique: false,
+    select: false,
   },
   password: {
     type: String,
@@ -40,6 +42,14 @@ const clientSchema = new mongoose.Schema({
     type: String,
     require: true,
     unique: false,
+  },
+  passwordResetToken: {
+    type: String,
+    select: false,
+  },
+  passwordResetExpires: {
+    type: Date,
+    select: false,
   },
   createdAt: {
     type: Date,

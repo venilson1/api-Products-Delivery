@@ -12,7 +12,7 @@ api de produtos para delivery. Nele é encontrado sistema de autenticação com 
 - [x] Clientes
 - [x] upload nuvem cloudinary
 - [x] JWT
-- [ ] NodeMaile
+- [x] NodeMaile
 - [x] Login
 - [ ] Swagger UI
 

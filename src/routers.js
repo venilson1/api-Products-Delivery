@@ -5,14 +5,17 @@ const authAdmin = require("./middleware/authAdmin");
 const authClient = require("./middleware/authClient");
 const HomeController = require("./controllers/HomeController");
 const AdminController = require("./controllers/AdminController");
-const AuthAdminController = require("./controllers/AuthAdminController");
-const AuthClientController = require("./controllers/AuthClientController");
+const AuthAdminController = require("./auth/AuthAdminController");
+const AuthClientController = require("./auth/AuthClientController");
 const ProductController = require("./controllers/ProductController");
 const ClientController = require("./controllers/ClientController");
 const OrderController = require("./controllers/OrderController");
+const ForgotPasswordController = require("./auth/ForgotPasswordController");
 
 router.post("/auth/admin", AuthAdminController.login);
 router.post("/auth/client", AuthClientController.login);
+router.post("/forgot_password", ForgotPasswordController.forgot);
+router.post("/reset_password", ForgotPasswordController.reset);
 
 router.get("/", HomeController.index);
 router.get("/users", authAdmin, AdminController.getAllAdmins);
