@@ -11,6 +11,15 @@ class OrderServices {
     let orders = newOrder.save();
     return orders;
   }
+
+  async delete(id) {
+    try {
+      await Order.findByIdAndDelete(id);
+      return { status: true };
+    } catch (error) {
+      return { status: false, error: "O Pedido não existe" };
+    }
+  }
 }
 
 module.exports = new OrderServices();
