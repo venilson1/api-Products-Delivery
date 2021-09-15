@@ -1,20 +1,17 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const orderSchema = new mongoose.Schema({
-  clientId: {
-    type: String,
-    require: true,
-    unique: false,
-  },
-  order: {
-    type: Object,
-    require: true,
-    unique: false,
-  },
+  clientId: { type: Schema.Types.ObjectId, ref: "Client" },
+  order: [{ type: Schema.Types.ObjectId, ref: "Product" }],
   stage: {
     type: Number,
     require: true,
     unique: false,
+  },
+  quantity: {
+    type: Number,
+    default: 1,
   },
   createdAt: {
     type: Date,

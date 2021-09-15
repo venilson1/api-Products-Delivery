@@ -2,7 +2,16 @@ const Order = require("../models/Orders");
 
 class OrderServices {
   async findOrders() {
-    let orders = await Order.find();
+    let orders = await Order.find()
+      .select("clientId _id")
+      .populate({
+        path: "order",
+        select: "name price",
+      })
+      .populate({
+        path: "clientId",
+        select: "name email adress complement reference telephone",
+      });
     return orders;
   }
 
