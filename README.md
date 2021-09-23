@@ -12,7 +12,7 @@ api de produtos para delivery. Nele é encontrado sistema de autenticação com 
 - [x] Clientes
 - [ ] Categoria
 - [ ] Impressão pedidos
-- [ ] Avaliação de produtos
+- [x] Avaliação de produtos
 - [x] upload nuvem cloudinary
 - [x] JWT
 - [x] NodeMaile
