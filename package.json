@@ -15,11 +15,11 @@
     "nodemailer-express-handlebars": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "supervisor": "^0.12.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js"
+    "start": "supervisor src/app.js"
   },
   "keywords": [],
   "author": "Venilson Santos",

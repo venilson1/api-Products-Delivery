@@ -32,7 +32,7 @@ const productSchema = new mongoose.Schema({
     require: false,
     unique: false,
   },
-  rating: [{ type: Schema.Types.ObjectId, ref: "Rating", required: false }],
+  reviews: [{ type: Schema.Types.ObjectId, ref: "Reviews" }],
   createdAt: {
     type: Date,
     default: Date.now,

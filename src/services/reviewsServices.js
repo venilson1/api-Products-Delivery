@@ -7,7 +7,6 @@ class ReviewsServices {
   }
 
   async register(clientId, productId, rating, title, body, rated) {
-    console.log(rated);
     const newReviews = new Reviews({
       clientId,
       productId,

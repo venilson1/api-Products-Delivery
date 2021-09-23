@@ -1,8 +1,22 @@
 const Product = require("../models/Products");
+const Reviews = require("../models/Reviews");
 
 class ProductServices {
   async findProducts() {
     let products = await Product.find();
+    let reviews = await Reviews.find().populate({
+      path: "clientId",
+      select: "name",
+    });
+
+    products.map((pro) => {
+      reviews.forEach((rev) => {
+        if (pro._id.toString() == rev.productId.toString()) {
+          pro.reviews.push(rev);
+        }
+      });
+    });
+
     return products;
   }
 
