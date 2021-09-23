@@ -11,6 +11,7 @@ const ProductController = require("./controllers/ProductController");
 const ClientController = require("./controllers/ClientController");
 const OrderController = require("./controllers/OrderController");
 const ForgotPasswordController = require("./auth/ForgotPasswordController");
+const ReviewsController = require("./controllers/ReviewsController");
 
 router.post("/auth/admin", AuthAdminController.login);
 router.post("/auth/client", AuthClientController.login);
@@ -24,7 +25,7 @@ router.post("/users", AdminController.newAdmin);
 router.patch("/users/:id", AdminController.edit);
 router.delete("/users/:id", AdminController.remove);
 
-router.get("/products", authClient, ProductController.index);
+router.get("/products", ProductController.index);
 // prettier-ignore
 router.post("/products", upload.single("path"), ProductController.newProduct);
 router.get("/products/:id", ProductController.getProductById);
@@ -41,5 +42,8 @@ router.delete("/clients/:id", ClientController.remove);
 router.get("/orders", OrderController.index);
 router.post("/orders", authClient, OrderController.newOrder);
 router.delete("/orders/:id", OrderController.remove);
+
+router.get("/reviews", ReviewsController.index);
+router.post("/reviews", ReviewsController.newReviews);
 
 module.exports = router;

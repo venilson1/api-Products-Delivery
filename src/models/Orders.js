@@ -9,10 +9,7 @@ const orderSchema = new mongoose.Schema({
     require: true,
     unique: false,
   },
-  quantity: {
-    type: Number,
-    default: 1,
-  },
+  total: { type: Number, default: 0, required: false },
   createdAt: {
     type: Date,
     default: Date.now,

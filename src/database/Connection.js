@@ -5,9 +5,7 @@ const ATLAS_URI = process.env.MONGODBATLAS_URI;
 
 const connectionParams = {
   useNewUrlParser: true,
-  useCreateIndex: true,
   useUnifiedTopology: true,
-  useFindAndModify: false,
 };
 
 const connectDB = async () => {

@@ -12,6 +12,7 @@ class OrderServices {
         path: "clientId",
         select: "name email adress complement reference telephone",
       });
+
     return orders;
   }
 
