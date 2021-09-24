@@ -12,6 +12,7 @@ const ClientController = require("./controllers/ClientController");
 const OrderController = require("./controllers/OrderController");
 const ForgotPasswordController = require("./auth/ForgotPasswordController");
 const ReviewsController = require("./controllers/ReviewsController");
+const CategoryController = require("./controllers/CategoryController");
 
 router.post("/auth/admin", AuthAdminController.login);
 router.post("/auth/client", AuthClientController.login);
@@ -45,5 +46,8 @@ router.delete("/orders/:id", OrderController.remove);
 
 router.get("/reviews", ReviewsController.index);
 router.post("/reviews", ReviewsController.newReviews);
+
+router.get("/categories", CategoryController.index);
+router.post("/categories", CategoryController.newCategory);
 
 module.exports = router;
