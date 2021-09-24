@@ -20,6 +20,7 @@ router.post("/forgot_password", ForgotPasswordController.forgot);
 router.post("/reset_password", ForgotPasswordController.reset);
 
 router.get("/", HomeController.index);
+
 router.get("/users", authAdmin, AdminController.getAllAdmins);
 router.get("/users/:id", AdminController.getAdminById);
 router.post("/users", AdminController.newAdmin);
@@ -35,8 +36,8 @@ router.patch("/products/:id", upload.single("path"), ProductController.edit);
 router.delete("/products/:id", ProductController.remove);
 
 router.get("/clients", ClientController.index);
-router.post("/clients", ClientController.newClient);
 router.get("/clients/:id", ClientController.getClientById);
+router.post("/clients", ClientController.newClient);
 router.patch("/clients/:id", ClientController.edit);
 router.delete("/clients/:id", ClientController.remove);
 
@@ -48,6 +49,9 @@ router.get("/reviews", ReviewsController.index);
 router.post("/reviews", ReviewsController.newReviews);
 
 router.get("/categories", CategoryController.index);
+router.get("/categories/:id", CategoryController.getCategoryById);
 router.post("/categories", CategoryController.newCategory);
+router.patch("/categories/:id", CategoryController.edit);
+router.delete("/categories/:id", CategoryController.remove);
 
 module.exports = router;

@@ -26,13 +26,12 @@ class CategoryServices {
   }
 
   async update(id, title) {
-    if (category != undefined) {
+    if (title != undefined) {
       let editCategory = {};
 
       if (title) {
         editCategory.title = title;
       }
-
       await Category.findByIdAndUpdate(id, { $set: editCategory });
       return { status: true };
     } else {
