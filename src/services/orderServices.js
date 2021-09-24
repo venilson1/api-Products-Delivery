@@ -1,4 +1,5 @@
 const Order = require("../models/Orders");
+const thermalPrinter = require("../modules/thermalPrinter");
 
 class OrderServices {
   async findOrders() {
@@ -34,7 +35,10 @@ class OrderServices {
     order.stage = stage;
 
     const newOrder = new Order(order);
-    let orders = newOrder.save();
+    let orders = await newOrder.save();
+
+    thermalPrinter.printerOrder(orders);
+
     return orders;
   }
 

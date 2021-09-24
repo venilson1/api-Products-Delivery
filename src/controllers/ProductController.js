@@ -1,5 +1,5 @@
 const productServices = require("../services/productServices");
-const cloudinary = require("../utils/cloudinary");
+const cloudinary = require("../modules/cloudinary");
 
 class ProductController {
   async index(req, res) {

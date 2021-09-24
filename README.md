@@ -10,14 +10,15 @@ api de produtos para delivery. Nele é encontrado sistema de autenticação com 
 - [x] Produtos
 - [x] Pedidos
 - [x] Clientes
-- [ ] Categoria
-- [ ] Impressão pedidos
+- [x] Categoria
+- [x] Impressão pedidos
 - [x] Avaliação de produtos
 - [x] upload nuvem cloudinary
 - [x] JWT
-- [x] NodeMaile
+- [x] NodeMailer
 - [x] Login
 - [ ] Swagger UI
+- [ ] PIX
 
 ### Rodando o servidor 🚀
 
