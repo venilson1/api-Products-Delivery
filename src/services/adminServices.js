@@ -1,7 +1,26 @@
 const Admin = require("../models/Admins");
 
 class AdminServices {
-  async register(name, email, password, role) {
+
+  async findAll() {
+    try{
+      const data = await Admin.find({}, { password: 0, __v: false });
+      return data;
+    }catch(error) {
+      throw error;
+    }
+  }
+
+  async findById(id) {
+    try {
+      const data = await Admin.findById(id).select('-password -__v');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async insert(name, email, password, role) {
     const newAdmin = new Admin({ name, email, password, role });
     try{
       let admin = await newAdmin.save();
@@ -16,56 +35,25 @@ class AdminServices {
     return emailExists;
   }
 
-  async findAllAdmins() {
-    let allAdmins = await Admin.find({}, { password: 0 });
-    return allAdmins;
-  }
+  async update(id, name, email, role) {
 
-  async findAdminId(id) {
-    //verificando id valido
-    if (id.match(/^[0-9a-fA-F]{24}$/)) {
-      try {
-        let adminById = await Admin.findById(id);
-        return adminById;
-      } catch (error) {
-        console.log(error);
-        return undefined;
-      }
-    }
-  }
+    const result = await this.findEmail(email);
+    if(result) return { error: "e-mail already registered" };
 
-  async update(id, name, email, Admin) {
-    const admin = { name, email };
-
-    if (admin != undefined) {
-      let editAdmin = {};
-
-      if (email) {
-        const result = await this.findEmail(email);
-        if (result === null) {
-          editAdmin.email = email;
-        } else {
-          return { status: false, error: "O email já está cadastrado" };
-        }
-      }
-
-      if (name) {
-        editAdmin.name = name;
-      }
-
-      await Admin.findByIdAndUpdate(id, { $set: editAdmin });
-      return { status: true };
-    } else {
-      return { status: false, error: "O usuário não existe" };
+    try{
+      const data = await Admin.findByIdAndUpdate(id, { $set: { id, name, email, role }});
+      return data;
+    } catch(error){
+      throw error;
     }
   }
 
   async delete(id) {
-    try {
-      await Admin.findByIdAndDelete(id);
-      return { status: true };
-    } catch (error) {
-      return { status: false, error: "O usuário não existe" };
+    try{
+      const data = await Admin.findByIdAndDelete(id);
+      return data;
+    }catch(error){
+      throw error;
     }
   }
 }
