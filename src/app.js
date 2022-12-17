@@ -10,5 +10,5 @@ connectDB();
 
 app.use(router);
 
-const Port = process.env.Port || 3000;
-app.listen(Port, () => console.log("Servidor rodando porta 3000"));
+const Port = process.env.Port || 8080;
+app.listen(Port, () => console.log("Servidor rodando porta 8080"));
