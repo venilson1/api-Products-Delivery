@@ -21,11 +21,11 @@ router.post("/reset_password", ForgotPasswordController.reset);
 
 router.get("/", HomeController.index);
 
-router.get("/users", authAdmin, AdminController.getAllAdmins);
-router.get("/users/:id", AdminController.getAdminById);
-router.post("/users", AdminController.newAdmin);
-router.patch("/users/:id", AdminController.edit);
-router.delete("/users/:id", AdminController.remove);
+router.get("/admin", authAdmin, AdminController.getAllAdmins);
+router.get("/admin/:id", AdminController.getAdminById);
+router.post("/admin", AdminController.newAdmin);
+router.patch("/admin/:id", AdminController.edit);
+router.delete("/admin/:id", AdminController.remove);
 
 router.get("/products", ProductController.index);
 // prettier-ignore
