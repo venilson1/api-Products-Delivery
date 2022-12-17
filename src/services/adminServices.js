@@ -38,7 +38,7 @@ class AdminServices {
   async update(id, name, email, role) {
 
     const result = await this.findEmail(email);
-    if(result) return { error: "e-mail already registered" };
+    if(result) throw "e-mail already registered";
 
     try{
       const data = await Admin.findByIdAndUpdate(id, { $set: { id, name, email, role }});
