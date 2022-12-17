@@ -26,12 +26,7 @@ const clientSchema = new mongoose.Schema({
     require: false,
     unique: false,
     lowercase: true,
-  },
-  password: {
-    type: String,
-    require: true,
-    unique: false,
-    select: false,
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
   },
   password: {
     type: String,
