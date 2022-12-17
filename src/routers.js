@@ -3,6 +3,7 @@ const router = express.Router();
 const upload = require("./middleware/upload");
 const authAdmin = require("./middleware/authAdmin");
 const authClient = require("./middleware/authClient");
+const authEmployee = require("./middleware/authEmployee");
 const HomeController = require("./controllers/HomeController");
 const AdminController = require("./controllers/AdminController");
 const AuthAdminController = require("./auth/AuthAdminController");
@@ -22,24 +23,24 @@ router.post("/reset_password", ForgotPasswordController.reset);
 router.get("/", HomeController.index);
 
 router.get("/admin", authAdmin, AdminController.getAllAdmins);
-router.get("/admin/:id", AdminController.getAdminById);
-router.post("/admin", AdminController.newAdmin);
-router.patch("/admin/:id", AdminController.edit);
-router.delete("/admin/:id", AdminController.remove);
+router.get("/admin/:id", authAdmin, AdminController.getAdminById);
+router.post("/admin", authAdmin, AdminController.newAdmin);
+router.patch("/admin/:id", authAdmin, AdminController.edit);
+router.delete("/admin/:id", authAdmin, AdminController.remove);
 
 router.get("/products", ProductController.index);
 // prettier-ignore
-router.post("/products", upload.single("path"), ProductController.newProduct);
+router.post("/products", [authEmployee, upload.single("path")], ProductController.newProduct);
 router.get("/products/:id", ProductController.getProductById);
 // prettier-ignore
-router.patch("/products/:id", upload.single("path"), ProductController.edit);
-router.delete("/products/:id", ProductController.remove);
+router.patch("/products/:id", [authEmployee, upload.single("path")], ProductController.edit);
+router.delete("/products/:id", authEmployee, ProductController.remove);
 
 router.get("/clients", ClientController.index);
 router.get("/clients/:id", ClientController.getClientById);
 router.post("/clients", ClientController.newClient);
 router.patch("/clients/:id", ClientController.edit);
-router.delete("/clients/:id", ClientController.remove);
+router.delete("/clients/:id", authEmployee, ClientController.remove);
 
 router.get("/orders", OrderController.index);
 router.post("/orders", authClient, OrderController.newOrder);
