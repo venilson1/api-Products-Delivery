@@ -22,11 +22,11 @@ router.post("/reset_password", ForgotPasswordController.reset);
 
 router.get("/", HomeController.index);
 
-router.get("/admin", authAdmin, AdminController.findAll);
-router.get("/admin/:id", authAdmin, AdminController.findById);
-router.post("/admin", authAdmin, AdminController.insert);
-router.put("/admin/:id", authAdmin, AdminController.update);
-router.delete("/admin/:id", authAdmin, AdminController.delete);
+router.get("/admins", authAdmin, AdminController.findAll);
+router.get("/admins/:id", authAdmin, AdminController.findById);
+router.post("/admins", authAdmin, AdminController.insert);
+router.put("/admins/:id", authAdmin, AdminController.update);
+router.delete("/admins/:id", authAdmin, AdminController.delete);
 
 router.get("/products", ProductController.index);
 // prettier-ignore
@@ -36,11 +36,11 @@ router.get("/products/:id", ProductController.getProductById);
 router.patch("/products/:id", [authEmployee, upload.single("path")], ProductController.edit);
 router.delete("/products/:id", authEmployee, ProductController.remove);
 
-router.get("/clients", ClientController.index);
-router.get("/clients/:id", ClientController.getClientById);
-router.post("/clients", ClientController.newClient);
-router.patch("/clients/:id", ClientController.edit);
-router.delete("/clients/:id", authEmployee, ClientController.remove);
+router.get("/clients", ClientController.findAll);
+router.get("/clients/:id", ClientController.findById);
+router.post("/clients", ClientController.insert);
+router.put("/clients/:id", ClientController.update);
+router.delete("/clients/:id", authEmployee, ClientController.delete);
 
 router.get("/orders", OrderController.index);
 router.post("/orders", authClient, OrderController.newOrder);
