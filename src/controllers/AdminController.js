@@ -23,38 +23,27 @@ class AdminController {
   }
 
   async newAdmin(req, res) {
-    let { name, email, password } = req.body;
+    let { name, email, password, role } = req.body;
 
-    if (!name) {
-      res.status(400).send({ err: "O nome está invalido" });
-      return;
-    }
-    if (!email) {
-      res.status(400).send({ err: "O e-mail está invalido" });
-      return;
-    }
-    if (!password) {
-      res.status(400).send({ err: "Senha invalida" });
-      return;
-    }
+    if (!name) res.status(400).send({ error: "O nome está invalido" });
+    if (!email) res.status(400).send({ error: "O e-mail está invalido" });
+    if (!password) res.status(400).send({ error: "Senha invalida" });
+    if (!role && role.indexOf("admin") == -1 || role.indexOf("employee") == -1 ) res.status(400).send({ error: "Role invalida" });
 
     let emailExists = await adminServices.findEmail(email);
-
-    if (emailExists) {
-      res.status(406).json({ error: "Email já Cadastrado" });
-      return;
-    }
+    if (emailExists) res.status(406).json({ error: "Email já Cadastrado" });
 
     try {
       let hash = await bcrypt.hash(password, 10);
       const status = await adminServices.register(
         name,
         email,
-        (password = hash)
+        (password = hash),
+        role
       );
       res.status(200).send(status);
     } catch (error) {
-      console.log(error);
+      res.status(500).send(error);
     }
   }
 

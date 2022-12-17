@@ -1,10 +1,14 @@
 const Admin = require("../models/Admins");
 
 class AdminServices {
-  async register(name, email, password) {
-    const newAdmin = new Admin({ name, email, password });
-    let admin = await newAdmin.save();
-    return admin;
+  async register(name, email, password, role) {
+    const newAdmin = new Admin({ name, email, password, role });
+    try{
+      let admin = await newAdmin.save();
+      return admin;
+    } catch (e){
+      throw e;
+    }
   }
 
   async findEmail(email) {
