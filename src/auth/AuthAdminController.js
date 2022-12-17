@@ -18,7 +18,7 @@ class AuthAdminController {
           userExists.password
         );
 
-        let payload = { id: userExists._id, name: userExists.name };
+        let payload = { id: userExists._id, name: userExists.name, role: userExists.role };
 
         if (password !== undefined) {
           if (validPassword) {
