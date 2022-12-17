@@ -38,6 +38,12 @@ const clientSchema = new mongoose.Schema({
     require: true,
     unique: false,
   },
+  role: {
+    type: [String],
+    require: true,
+    unique: false,
+    default: ["client"]
+  },
   passwordResetToken: {
     type: String,
     select: false,
@@ -47,6 +53,11 @@ const clientSchema = new mongoose.Schema({
     select: false,
   },
   createdAt: {
+    type: Date,
+    default: Date.now,
+    unique: false,
+  },
+  updateAt: {
     type: Date,
     default: Date.now,
     unique: false,
