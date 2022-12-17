@@ -1,38 +1,33 @@
 const Client = require("../models/Clients");
 
 class ClientServices {
-  async findClients() {
-    let clients = await Client.find();
-    return clients;
-  }
 
-  async findEmail(email) {
-    const emailExists = await Client.findOne({ email });
-    return emailExists;
-  }
-
-  async findClientId(id) {
-    //verificando id valido
-    if (id.match(/^[0-9a-fA-F]{24}$/)) {
-      try {
-        let clientById = await Client.findById(id);
-        return clientById;
-      } catch (error) {
-        console.log(error);
-        return undefined;
-      }
+  async findAll() {
+    try{
+      const data = await Client.find({}, { password: 0, __v: false });
+      return data;
+    }catch(error) {
+      throw error;
     }
   }
 
-  async register(
+  async findById(id) {
+    try {
+      const data = await Client.findById(id).select('-password -__v');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async insert(    
     name,
     address,
     complement,
     reference,
     email,
     password,
-    telephone
-  ) {
+    telephone) {
     const newClient = new Client({
       name,
       address,
@@ -42,66 +37,38 @@ class ClientServices {
       password,
       telephone,
     });
-    let client = newClient.save();
-    return client;
+    try{
+      let client = await newClient.save();
+      return client;
+    } catch (e){
+      throw e;
+    }
+  }
+
+  async findEmail(email) {
+    const emailExists = await Client.findOne({ email });
+    return emailExists;
   }
 
   async update(id, name, address, complement, reference, email, telephone) {
-    const client = {
-      name,
-      address,
-      complement,
-      reference,
-      email,
-      telephone,
-    };
 
-    if (client != undefined) {
-      let editClient = {};
+    const result = await this.findEmail(email);
+    if (result) throw "e-mail already registered";
 
-      if (name) {
-        editClient.name = name;
-      }
-
-      if (address) {
-        editClient.address = address;
-      }
-
-      if (complement) {
-        editClient.complement = complement;
-      }
-
-      if (reference) {
-        editClient.reference = reference;
-      }
-
-      if (email) {
-        const emailExists = await this.findEmail(email);
-
-        if (emailExists === null) {
-          editClient.email = email;
-        } else {
-          return { status: false, error: "O email já está cadastrado" };
-        }
-      }
-
-      if (telephone) {
-        editClient.telephone = telephone;
-      }
-
-      await Client.findByIdAndUpdate(id, { $set: editClient });
-      return { status: true };
-    } else {
-      return { status: false, error: "O cliente não existe" };
+    try{
+      const data = await Client.findByIdAndUpdate(id, { $set: { id, name, address, complement, reference, email, telephone }});
+      return data;
+    } catch(error){
+      throw error;
     }
   }
 
   async delete(id) {
-    try {
-      await Client.findByIdAndDelete(id);
-      return { status: true };
-    } catch (error) {
-      return { status: false, error: "O cliente não existe" };
+    try{
+      const data = await Client.findByIdAndDelete(id);
+      return data;
+    }catch(error){
+      throw error;
     }
   }
 }

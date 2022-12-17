@@ -2,75 +2,47 @@ const clientServices = require("../services/clientServices");
 const bcrypt = require("bcrypt");
 
 class ClientController {
-  async index(req, res) {
-    const allClient = await clientServices.findClients();
 
-    res.send({
-      welcome: req.loggedEmail,
-      allClient,
-    });
+  async findAll(req, res) {
+    try{
+      const data = await clientServices.findAll();
+      return res.status(200).json(data);
+    }catch (error){
+      return res.status(500).json({error: error});
+    }    
   }
 
-  async getClientById(req, res) {
+  async findById(req, res) {
     let id = req.params.id;
-    const clientById = await clientServices.findClientId(id);
 
-    if (clientById) {
-      res.status(200).json({ clientById });
-    } else {
-      res.status(404).json({});
+    try{
+      const data = await clientServices.findById(id);
+
+      if(!data) return res.status(404).json({ error: 'not found' });
+  
+      return res.status(200).json(data);
+    } catch (error){
+      return res.status(404).json({error});
     }
   }
 
-  async newClient(req, res) {
-    let { name, address, complement, reference, email, password, telephone } =
-      req.body;
+  async insert(req, res) {
+    let { name, address, complement, reference, email, password, telephone } = req.body;
 
-    if (!name) {
-      res.status(400).send({ err: "Nome invalido" });
-      return;
-    }
-
-    if (!address) {
-      res.status(400).send({ err: "Endereço invalido" });
-      return;
-    }
-
-    if (!complement) {
-      res.status(400).send({ err: "Complemento invalido" });
-      return;
-    }
-
-    if (!reference) {
-      res.status(400).send({ err: "Local de referência invalida" });
-      return;
-    }
-
-    if (!email) {
-      res.status(400).send({ err: "E-mail invalido" });
-      return;
-    }
-
-    if (!password) {
-      res.status(400).send({ err: "Senha invalida" });
-      return;
-    }
-
-    if (!telephone) {
-      res.status(400).send({ err: "Telefone invalido" });
-      return;
-    }
+    if (!name) return res.status(400).send({ err: "name is invalid" });
+    if (!address) return res.status(400).send({ err: "adress is invalid" });
+    if (!complement) return res.status(400).send({ err: "complement place is invalid" });
+    if (!reference) return res.status(400).send({ err: "reference place is invalid" });
+    if (!email) return res.status(400).send({ err: "email is invalid" });
+    if (!password) return res.status(400).send({ err: "password is invalid" });
+    if (!telephone) return res.status(400).send({ err: "telephone is invalid" });
 
     let emailExists = await clientServices.findEmail(email);
-
-    if (emailExists) {
-      res.status(406).json({ error: "Email já Cadastrado" });
-      return;
-    }
+    if (emailExists) return res.status(406).json({ error: "e-mail already registered" });
 
     try {
       let hash = await bcrypt.hash(password, 10);
-      const status = await clientServices.register(
+      const data = await clientServices.insert(
         name,
         address,
         complement,
@@ -79,20 +51,20 @@ class ClientController {
         (password = hash),
         telephone
       );
-      res.status(200).send(status);
+      return res.status(200).json(data);
     } catch (error) {
-      console.log(error);
+      return res.status(500).json(error);
     }
   }
 
-  async edit(req, res) {
-    let id = req.params.id;
-    let { name, address, complement, reference, email, telephone } = req.body;
+  async update(req, res) {
+    const id = req.params.id;
+    const { name, address, complement, reference, email, telephone } = req.body;
 
-    const clientById = await clientServices.findClientId(id);
+    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
 
-    if (clientById) {
-      var result = await clientServices.update(
+    try{
+      const data = await clientServices.update(
         id,
         name,
         address,
@@ -101,22 +73,26 @@ class ClientController {
         email,
         telephone
       );
-      res.status(200).send(result.status);
-    } else {
-      res.status(404).json({});
+
+      if(data) return res.status(200).json();
+      return res.status(404).json({error: "not found"});
+    }catch(error){
+      return res.status(404).json({error});
     }
+
   }
 
-  async remove(req, res) {
+  async delete(req, res) {
     let id = req.params.id;
 
-    const clientById = await clientServices.findClientId(id);
+    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
 
-    if (clientById) {
-      const clientById = await clientServices.delete(id);
-      res.status(200).json({ clientById });
-    } else {
-      res.status(404).json({});
+    try{
+      const data = await clientServices.delete(id);
+      if(data) return res.status(200).json();
+      return res.status(404).json({error: "not found"});
+    }catch(error){
+      return res.status(500).json({error: 'internal server error'});
     }
   }
 }
