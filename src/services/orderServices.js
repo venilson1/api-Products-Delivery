@@ -1,5 +1,5 @@
 const Order = require("../models/Orders");
-const thermalPrinter = require("../modules/thermalPrinter");
+const thermalPrinter = require("../configs/thermalPrinter");
 
 class OrderServices {
   async findOrders() {

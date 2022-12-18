@@ -1,7 +1,7 @@
 const clientServices = require("../services/UserService");
 const Client = require("../models/User");
 const crypto = require("crypto");
-const mailer = require("../modules/mailer");
+const mailer = require("../configs/mailer");
 const bcrypt = require("bcrypt");
 
 class ForgotPasswordController {
