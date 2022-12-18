@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const reviewsSchema = new mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
   clientId: { type: Schema.Types.ObjectId, ref: "Client" },
   productId: { type: Schema.Types.ObjectId, ref: "Product" },
   rating: {
@@ -26,10 +26,14 @@ const reviewsSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-    unique: false,
+    default: () => Date.now() - 3*60*60*1000
+  },
+  updateAt: {
+    type: Date,
+    default: () => Date.now() - 3*60*60*1000
   },
 });
 
-const Reviews = mongoose.model("Reviews", reviewsSchema);
-module.exports = Reviews;
+const Review = mongoose.model("Review", reviewSchema);
+module.exports = Review;
+

@@ -36,8 +36,11 @@ const productSchema = new mongoose.Schema({
   category: { type: Schema.Types.ObjectId, ref: "Category" },
   createdAt: {
     type: Date,
-    default: Date.now,
-    unique: false,
+    default: () => Date.now() - 3*60*60*1000
+  },
+  updateAt: {
+    type: Date,
+    default: () => Date.now() - 3*60*60*1000
   },
 });
 

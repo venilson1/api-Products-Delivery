@@ -28,13 +28,13 @@ router.post("/admins", authAdmin, AdminController.insert);
 router.put("/admins/:id", authAdmin, AdminController.update);
 router.delete("/admins/:id", authAdmin, AdminController.delete);
 
-router.get("/products", ProductController.index);
+router.get("/products", ProductController.findAll);
+router.get("/products/:id", ProductController.findById);
 // prettier-ignore
-router.post("/products", [authEmployee, upload.single("path")], ProductController.newProduct);
-router.get("/products/:id", ProductController.getProductById);
+router.post("/products", [authEmployee, upload.single("path")], ProductController.insert);
 // prettier-ignore
-router.patch("/products/:id", [authEmployee, upload.single("path")], ProductController.edit);
-router.delete("/products/:id", authEmployee, ProductController.remove);
+router.patch("/products/:id", [authEmployee, upload.single("path")], ProductController.update);
+router.delete("/products/:id", authEmployee, ProductController.delete);
 
 router.get("/users", UserController.findAll);
 router.get("/users/:id", UserController.findById);
@@ -52,7 +52,7 @@ router.post("/reviews", ReviewsController.newReviews);
 router.get("/categories", CategoryController.index);
 router.get("/categories/:id", CategoryController.getCategoryById);
 router.post("/categories", CategoryController.newCategory);
-router.patch("/categories/:id", CategoryController.edit);
+router.put("/categories/:id", CategoryController.edit);
 router.delete("/categories/:id", CategoryController.remove);
 
 module.exports = router;

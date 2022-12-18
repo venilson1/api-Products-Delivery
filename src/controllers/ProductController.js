@@ -1,53 +1,39 @@
-const productServices = require("../services/productServices");
+const productService = require("../services/productService");
 const cloudinary = require("../modules/cloudinary");
 
 class ProductController {
-  async index(req, res) {
-    const products = await productServices.findProducts();
-
-    res.send({
-      welcome: req.loggedName,
-      products,
-    });
-  }
-
-  async getProductById(req, res) {
-    let id = req.params.id;
-    const productById = await productServices.findProductId(id);
-
-    if (productById) {
-      res.status(200).json({ productById });
-    } else {
-      res.status(404).json({});
+  async findAll(req, res) {
+    try{
+      const data = await productService.findAll();
+      return res.status(200).json(data);
+    }catch (error){
+      return res.status(500).json({error: 'internal server error'});
     }
   }
 
-  async newProduct(req, res) {
+  async findById(req, res) {
+    let id = req.params.id;
+
+    try{
+      const data = await productService.findById(id);
+      if(!data) return res.status(404).json({ error: 'not found' });
+  
+      return res.status(200).json(data);
+    } catch (error){
+      return res.status(404).json({error});
+    }
+  }
+
+  async insert(req, res) {
     let { path, filename } = req.file;
     let { name, description, price, promotion, discount } = req.body;
 
-    if (!name) {
-      res.status(400).send({ err: "O nome está invalido" });
-      return;
-    }
+    if (!name) return res.status(400).send({ err: "O nome está invalido" });
 
-    if (!description) {
-      res.status(400).send({ err: "Descrição invalida está invalido" });
-      return;
-    }
-    if (!price) {
-      res.status(400).send({ err: "Preço não fornecido" });
-      return;
-    }
-    if (!promotion) {
-      res.status(400).send({ err: "Promoção não forncida" });
-      return;
-    }
-
-    if (!discount) {
-      res.status(400).send({ err: "Desconto não fornecido" });
-      return;
-    }
+    if (!description) return res.status(400).send({ err: "Descrição invalida está invalido" });
+    if (!price) return res.status(400).send({ err: "Preço não fornecido" });
+    if (!promotion) return res.status(400).send({ err: "Promoção não forncida" });
+    if (!discount) return res.status(400).send({ err: "Desconto não fornecido" });
 
     try {
       cloudinary.v2.uploader.upload(
@@ -55,7 +41,7 @@ class ProductController {
         { public_id: filename, width: 400, height: 250, crop: "scale" },
         async (error, result) => {
           const { url } = result;
-          const status = await productServices.register(
+          const data = await productService.insert(
             name,
             description,
             price,
@@ -63,22 +49,22 @@ class ProductController {
             discount,
             url
           );
-          res.status(200).send(status);
+          if(error) return res.status(400).json(error);
+          return res.status(200).json(data);
         }
       );
     } catch (error) {
-      console.log(error);
+      return res.status(500).json(error);
     }
   }
 
-  async edit(req, res) {
-    let { path, filename } = req.file;
+  async update(req, res) {
     let id = req.params.id;
+    let { path, filename } = req.file;
     let { name, description, price, promotion, discount } = req.body;
 
-    const productById = await productServices.findProductId(id);
+    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
 
-    if (productById) {
       try {
         cloudinary.v2.uploader.upload(
           path,
@@ -86,7 +72,7 @@ class ProductController {
           async (error, result) => {
             const { url } = result;
 
-            const productUpdated = await productServices.update(
+            const productUpdated = await productService.update(
               id,
               name,
               description,
@@ -95,27 +81,26 @@ class ProductController {
               discount,
               url
             );
-            res.status(200).send(productUpdated);
+            if(error) return res.status(400).json(error);
+            return res.status(200).send(productUpdated);
           }
         );
       } catch (error) {
-        console.log(error);
+        return res.status(500).json(error);
       }
-    } else {
-      res.status(404).json({});
-    }
   }
 
-  async remove(req, res) {
+  async delete(req, res) {
     let id = req.params.id;
 
-    const productById = await productServices.findProductId(id);
+    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
 
-    if (productById) {
-      const productById = await productServices.delete(id);
-      res.status(200).json({ productById });
-    } else {
-      res.status(404).json({});
+    try{
+      const data = await productService.delete(id);
+      if(data) return res.status(200).json();
+      return res.status(404).json({error: "not found"});
+    }catch(error){
+      return res.status(500).json({error: 'internal server error'});
     }
   }
 }

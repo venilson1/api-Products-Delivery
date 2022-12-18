@@ -1,8 +1,8 @@
-const reviewsServices = require("../services/reviewsServices");
+const reviewService = require("../services/reviewService");
 
-class ReviewsController {
+class ReviewController {
   async index(req, res) {
-    const reviews = await reviewsServices.findReviews();
+    const reviews = await reviewService.findReviews();
     res.send({
       reviews,
     });
@@ -14,7 +14,7 @@ class ReviewsController {
     let { productId, rating, title, body } = req.body;
 
     try {
-      const status = await reviewsServices.register(
+      const status = await reviewService.register(
         clientId,
         productId,
         rating,
@@ -29,4 +29,4 @@ class ReviewsController {
   }
 }
 
-module.exports = new ReviewsController();
+module.exports = new ReviewController();
