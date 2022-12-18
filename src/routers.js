@@ -49,10 +49,10 @@ router.delete("/orders/:id", OrderController.remove);
 router.get("/reviews", ReviewsController.index);
 router.post("/reviews", ReviewsController.newReviews);
 
-router.get("/categories", CategoryController.index);
-router.get("/categories/:id", CategoryController.getCategoryById);
-router.post("/categories", CategoryController.newCategory);
-router.put("/categories/:id", CategoryController.edit);
-router.delete("/categories/:id", CategoryController.remove);
+router.get("/categories", CategoryController.findAll);
+router.get("/categories/:id", CategoryController.findById);
+router.post("/categories", CategoryController.insert);
+router.put("/categories/:id", CategoryController.update);
+router.delete("/categories/:id", CategoryController.delete);
 
 module.exports = router;
