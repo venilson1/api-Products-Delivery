@@ -9,7 +9,7 @@ const AdminController = require("./controllers/AdminController");
 const AuthAdminController = require("./auth/AuthAdminController");
 const AuthClientController = require("./auth/AuthClientController");
 const ProductController = require("./controllers/ProductController");
-const ClientController = require("./controllers/ClientController");
+const UserController = require("./controllers/UserController");
 const OrderController = require("./controllers/OrderController");
 const ForgotPasswordController = require("./auth/ForgotPasswordController");
 const ReviewsController = require("./controllers/ReviewsController");
@@ -36,11 +36,11 @@ router.get("/products/:id", ProductController.getProductById);
 router.patch("/products/:id", [authEmployee, upload.single("path")], ProductController.edit);
 router.delete("/products/:id", authEmployee, ProductController.remove);
 
-router.get("/clients", ClientController.findAll);
-router.get("/clients/:id", ClientController.findById);
-router.post("/clients", ClientController.insert);
-router.put("/clients/:id", ClientController.update);
-router.delete("/clients/:id", authEmployee, ClientController.delete);
+router.get("/users", UserController.findAll);
+router.get("/users/:id", UserController.findById);
+router.post("/users", UserController.insert);
+router.put("/users/:id", UserController.update);
+router.delete("/users/:id", authEmployee, UserController.delete);
 
 router.get("/orders", OrderController.index);
 router.post("/orders", authClient, OrderController.newOrder);

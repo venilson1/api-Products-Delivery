@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const clientSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
@@ -42,7 +42,7 @@ const clientSchema = new mongoose.Schema({
     type: [String],
     require: true,
     unique: false,
-    default: ["client"]
+    default: ["user"]
   },
   passwordResetToken: {
     type: String,
@@ -54,15 +54,13 @@ const clientSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-    unique: false,
+    default: () => Date.now() - 3*60*60*1000
   },
   updateAt: {
     type: Date,
-    default: Date.now,
-    unique: false,
+    default: () => Date.now() - 3*60*60*1000
   },
 });
 
-const Client = mongoose.model("Client", clientSchema);
-module.exports = Client;
+const User = mongoose.model("User", userSchema);
+module.exports = User;

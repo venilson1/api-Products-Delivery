@@ -1,10 +1,10 @@
-const Client = require("../models/Clients");
+const User = require("../models/User");
 
-class ClientServices {
+class UserService {
 
   async findAll() {
     try{
-      const data = await Client.find({}, { password: 0, __v: false });
+      const data = await User.find({}, { password: 0, __v: false });
       return data;
     }catch(error) {
       throw error;
@@ -13,7 +13,7 @@ class ClientServices {
 
   async findById(id) {
     try {
-      const data = await Client.findById(id).select('-password -__v');
+      const data = await User.findById(id).select('-password -__v');
       return data;
     } catch (error) {
       throw error;
@@ -28,7 +28,7 @@ class ClientServices {
     email,
     password,
     telephone) {
-    const newClient = new Client({
+    const newUser = new User({
       name,
       address,
       complement,
@@ -38,25 +38,27 @@ class ClientServices {
       telephone,
     });
     try{
-      let client = await newClient.save();
-      return client;
+      let user = await newUser.save();
+      return user;
     } catch (e){
       throw e;
     }
   }
 
   async findEmail(email) {
-    const emailExists = await Client.findOne({ email });
+    const emailExists = await User.findOne({ email });
     return emailExists;
   }
 
   async update(id, name, address, complement, reference, email, telephone) {
 
-    const result = await this.findEmail(email);
-    if (result) throw "e-mail already registered";
+    // const result = await this.findEmail(email);
+    // if (result) throw "e-mail already registered";
 
     try{
-      const data = await Client.findByIdAndUpdate(id, { $set: { id, name, address, complement, reference, email, telephone }});
+      const data = await User
+        .findByIdAndUpdate(id, { $set: { id, name, address, complement, reference, email, telephone }})
+        .select('-password -__v');
       return data;
     } catch(error){
       throw error;
@@ -65,7 +67,7 @@ class ClientServices {
 
   async delete(id) {
     try{
-      const data = await Client.findByIdAndDelete(id);
+      const data = await User.findByIdAndDelete(id);
       return data;
     }catch(error){
       throw error;
@@ -73,4 +75,4 @@ class ClientServices {
   }
 }
 
-module.exports = new ClientServices();
+module.exports = new UserService();

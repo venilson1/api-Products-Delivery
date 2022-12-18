@@ -1,5 +1,5 @@
-const clientServices = require("../services/clientServices");
-const Client = require("../models/Clients");
+const clientServices = require("../services/UserService");
+const Client = require("../models/User");
 const crypto = require("crypto");
 const mailer = require("../modules/mailer");
 const bcrypt = require("bcrypt");
