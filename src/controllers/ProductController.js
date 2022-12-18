@@ -82,7 +82,7 @@ class ProductController {
               url
             );
             if(error) return res.status(400).json(error);
-            return res.status(200).send(productUpdated);
+            return res.status(200).json(productUpdated);
           }
         );
       } catch (error) {

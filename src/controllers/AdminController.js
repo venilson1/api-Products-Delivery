@@ -59,7 +59,7 @@ class AdminController {
 
     try{
       const data = await adminServices.update(id, name, email, role);
-      if(data) return res.status(200).json();
+      if(data) return res.status(200).json(data);
       return res.status(404).json({error: "not found"});
     }catch(error){
       return res.status(404).json({error});
