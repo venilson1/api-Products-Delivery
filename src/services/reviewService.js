@@ -2,21 +2,29 @@ const Review = require("../models/Review");
 
 class ReviewService {
   async findAll() {
-    let reviews = await Review.find();
-    return reviews;
+    try{
+      let data = await Review.find();
+      return data;
+    }
+    catch(error){
+      throw error;
+    }
   }
 
-  async insert(clientId, productId, rating, title, body, rated) {
-    const newReview = new Review({
-      clientId,
-      productId,
-      rating,
-      title,
-      body,
-      rated,
-    });
-    let review = newReview.save();
-    return review;
+  async insert(userId, productId, rating, title, body) {
+    try {
+      const newReview = new Review({
+        userId,
+        productId,
+        rating,
+        title,
+        body,
+      });
+      let review = newReview.save();
+      return review;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const reviewSchema = new mongoose.Schema({
-  clientId: { type: Schema.Types.ObjectId, ref: "Client" },
+  UserId: { type: Schema.Types.ObjectId, ref: "User" },
   productId: { type: Schema.Types.ObjectId, ref: "Product" },
   rating: {
     type: Number,
     require: true,
     unique: false,
+    enum: [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
   },
   title: {
     type: String,
@@ -19,10 +20,10 @@ const reviewSchema = new mongoose.Schema({
     require: true,
     unique: false,
   },
-  rated: {
+  active: {
     type: Boolean,
     require: true,
-    unique: false,
+    default: false
   },
   createdAt: {
     type: Date,

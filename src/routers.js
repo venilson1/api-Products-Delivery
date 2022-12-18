@@ -12,7 +12,7 @@ const ProductController = require("./controllers/ProductController");
 const UserController = require("./controllers/UserController");
 const OrderController = require("./controllers/OrderController");
 const ForgotPasswordController = require("./auth/ForgotPasswordController");
-const ReviewsController = require("./controllers/ReviewsController");
+const ReviewController = require("./controllers/ReviewController");
 const CategoryController = require("./controllers/CategoryController");
 
 router.post("/auth/admin", AuthAdminController.login);
@@ -36,6 +36,8 @@ router.post("/products", [authEmployee, upload.single("path")], ProductControlle
 router.patch("/products/:id", [authEmployee, upload.single("path")], ProductController.update);
 router.delete("/products/:id", authEmployee, ProductController.delete);
 
+// router.get("/products/:id/reviews", ProductController.findById);
+
 router.get("/users", UserController.findAll);
 router.get("/users/:id", UserController.findById);
 router.post("/users", UserController.insert);
@@ -46,8 +48,8 @@ router.get("/orders", OrderController.index);
 router.post("/orders", authClient, OrderController.newOrder);
 router.delete("/orders/:id", OrderController.remove);
 
-router.get("/reviews", ReviewsController.index);
-router.post("/reviews", ReviewsController.newReviews);
+router.get("/reviews", ReviewController.findAll);
+router.post("/reviews", ReviewController.insert);
 
 router.get("/categories", CategoryController.findAll);
 router.get("/categories/:id", CategoryController.findById);
