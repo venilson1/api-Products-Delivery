@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const categorySchema = new mongoose.Schema({
-  title: {
+  name: {
     type: String,
     require: true,
     unique: true,
   },
-  products: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+  // products: [{ type: Schema.Types.ObjectId, ref: "Product" }],
   createdAt: {
     type: Date,
     default: Date.now,
