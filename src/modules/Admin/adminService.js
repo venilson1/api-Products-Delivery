@@ -1,4 +1,4 @@
-const Admin = require("../models/Admins");
+const Admin = require("./Admin");
 
 class AdminServices {
 

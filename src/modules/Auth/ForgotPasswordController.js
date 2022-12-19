@@ -1,7 +1,7 @@
-const clientServices = require("../services/UserService");
-const Client = require("../models/User");
+const UserService = require("../User/UserService");
+const Client = require("../User/User");
 const crypto = require("crypto");
-const mailer = require("../configs/mailer");
+const mailer = require("../../configs/mailer");
 const bcrypt = require("bcrypt");
 
 class ForgotPasswordController {
@@ -9,7 +9,7 @@ class ForgotPasswordController {
     const { email } = req.body;
 
     try {
-      const client = await clientServices.findEmail(email);
+      const client = await UserService.findEmail(email);
 
       if (!client) {
         return res.status(400).json({ error: "cliente não encontrado" });

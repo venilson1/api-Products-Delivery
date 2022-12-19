@@ -1,5 +1,5 @@
-const productService = require("../services/productService");
-const cloudinary = require("../configs/cloudinary");
+const productService = require("./productService");
+const cloudinary = require("../../configs/cloudinary");
 
 class ProductController {
   async findAll(req, res) {

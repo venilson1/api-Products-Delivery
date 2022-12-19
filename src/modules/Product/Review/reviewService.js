@@ -1,4 +1,4 @@
-const Review = require("../models/Review");
+const Review = require("./Review");
 
 class ReviewService {
   async findAll() {

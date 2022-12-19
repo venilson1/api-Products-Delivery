@@ -1,4 +1,4 @@
-const userService = require("../services/UserService");
+const userService = require("./UserService");
 const bcrypt = require("bcrypt");
 
 class UserController {
