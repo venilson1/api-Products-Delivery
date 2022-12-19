@@ -26,6 +26,19 @@ class ReviewService {
       throw error;
     }
   }
+
+  async findByProduct(id){
+    try{
+      const data = await Review.find({productId: id})   
+      .populate({
+        path: "userId",
+        select: "name -_id",
+    });
+      return data;
+    }catch(error){
+      throw error;
+    }
+  }
 }
 
 module.exports = new ReviewService();

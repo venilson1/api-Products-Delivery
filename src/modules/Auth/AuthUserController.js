@@ -1,24 +1,25 @@
 const bcrypt = require("bcrypt");
-const Client = require("../User/User");
+const User = require("../User/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const JWTSecret = process.env.SECRET_JWT_CLIENT;
+const JWTSecret = process.env.SECRET_JWT_USER;
 
-class AuthClientController {
+class AuthUserController {
   async login(req, res) {
     const { email, password } = req.body;
 
     if (email != undefined) {
-      const clientExists = await Client.findOne({ email });
+      const userExists = await User.findOne({ email });
 
-      if (clientExists) {
+      if (userExists) {
         const validPassword = await bcrypt.compare(
           password,
-          clientExists.password
+          userExists.password
         );
 
-        let payload = { id: clientExists._id, name: clientExists.name };
+
+        let payload = { id: userExists._id, name: userExists.name, role: userExists.role };
 
         if (password !== undefined) {
           if (validPassword) {
@@ -44,4 +45,4 @@ class AuthClientController {
   }
 }
 
-module.exports = new AuthClientController();
+module.exports = new AuthUserController();

@@ -2,21 +2,22 @@ const express = require("express");
 const router = express.Router();
 const upload = require("./middleware/upload");
 const authAdmin = require("./middleware/authAdmin");
-const authClient = require("./middleware/authClient");
+const authUser = require("./middleware/authUser");
 const authEmployee = require("./middleware/authEmployee");
 const HomeController = require("./modules/HomeController");
 const AdminController = require("./modules/Admin/AdminController");
 const AuthAdminController = require("./modules/Auth/AuthAdminController");
-const AuthClientController = require("./modules/Auth/AuthClientController");
+const AuthUserController = require("./modules/Auth/AuthUserController");
 const ProductController = require("./modules/Product/ProductController");
 const UserController = require("./modules/User/UserController");
 const OrderController = require("./modules/Order/OrderController");
 const ForgotPasswordController = require("./modules/Auth/ForgotPasswordController");
 const ReviewController = require("./modules/Product/Review/ReviewController");
 const CategoryController = require("./modules/Category/CategoryController");
+const reviewService = require("./modules/Product/Review/reviewService");
 
 router.post("/auth/admin", AuthAdminController.login);
-router.post("/auth/client", AuthClientController.login);
+router.post("/auth/user", AuthUserController.login);
 router.post("/forgot_password", ForgotPasswordController.forgot);
 router.post("/reset_password", ForgotPasswordController.reset);
 
@@ -35,16 +36,19 @@ router.post("/products", [authEmployee, upload.single("path")], ProductControlle
 // prettier-ignore
 router.patch("/products/:id", [authEmployee, upload.single("path")], ProductController.update);
 router.delete("/products/:id", authEmployee, ProductController.delete);
-router.get("/products/:id/reviews", ProductController.findByIdAndReviews);
+router.get("/products/:id/reviews", ReviewController.findByProduct);
+
+
+router.get("/users/me", authUser, UserController.me);
 
 router.get("/users", UserController.findAll);
-router.get("/users/:id", UserController.findById);
+router.get("/users/:id",authEmployee, UserController.findById);
 router.post("/users", UserController.insert);
 router.put("/users/:id", UserController.update);
 router.delete("/users/:id", authEmployee, UserController.delete);
 
 router.get("/orders", OrderController.index);
-router.post("/orders", authClient, OrderController.newOrder);
+router.post("/orders", authUser, OrderController.newOrder);
 router.delete("/orders/:id", OrderController.remove);
 
 router.get("/reviews", ReviewController.findAll);

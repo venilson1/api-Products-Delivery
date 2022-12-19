@@ -73,6 +73,15 @@ class UserService {
       throw error;
     }
   }
+
+  async findMe(id){
+    try{
+      const data = await User.findById(id);
+      return data;
+    }catch(error){
+      throw error;
+    }
+  }
 }
 
 module.exports = new UserService();

@@ -103,20 +103,6 @@ class ProductController {
       return res.status(500).json({error: 'internal server error'});
     }
   }
-
-  async findByIdAndReviews(req, res){
-    let id = req.params.id;
-
-    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
-
-    try{
-      const data = await productService.findByIdAndReviews(id);
-      if(data) return res.status(200).json(data);
-      return res.status(404).json({error: "not found"});
-    }catch(error){
-      return res.status(500).json({error: 'internal server error'});
-    }
-  }
 }
 
 module.exports = new ProductController();
