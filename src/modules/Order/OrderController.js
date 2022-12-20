@@ -1,54 +1,56 @@
-const orderServices = require("./orderServices");
+const orderService = require("./orderService");
 
 class OrderController {
-  async index(req, res) {
-    const allOrders = await orderServices.findOrders();
+  
+  async findByDate(req, res) {
+    let date = req.params.date;
 
-    res.send({
-      allOrders,
-      welcome: req.loggedName,
-    });
+    if(!date) date = new Date().toISOString().substr(0, 10).split('-').join('-');
+
+    try{
+      const data = await orderService.findByDate(date);
+      return res.status(200).json(data);
+    }catch (error){
+      return res.status(500).json({error: 'internal server error'});
+    }
   }
 
-  async getOrderById(req, res) {
+  async findById(req, res) {
     let id = req.params.id;
-    const orderById = await orderServices.findOrderId(id);
 
-    if (orderById == undefined) {
-      res.status(404).json({});
-    } else {
-      res.status(200).json({ orderById });
+    try{
+      const data = await orderService.findById(id);
+
+      if(!data) return res.status(404).json({ error: 'not found' });
+  
+      return res.status(200).json(data);
+    } catch (error){
+      return res.status(404).json({error});
     }
   }
 
-  async newOrder(req, res) {
-    let clientId = req.loggedUserId;
-    let orderBody = req.body;
-    let stage = 1;
-
-    if (Object.values(orderBody).length === 1) {
-      res.status(400).send({ err: "Pedido Vazio" });
-      return;
-    }
+  async insert(req, res) {
+    const { user, products, delivery } = req.body;
 
     try {
-      const status = await orderServices.register(clientId, orderBody, stage);
-      res.status(200).send(status);
+      const data = await orderService.insert(user, products, delivery);
+      res.status(200).json(data);
     } catch (error) {
-      console.log(error);
+      return res.status(500).json(error);
     }
   }
 
-  async remove(req, res) {
-    let id = req.params.id;
+  async delete(req, res) {
+    const id = req.params.id;
 
-    const orderById = await orderServices.findOrderId(id);
+    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
 
-    if (orderById) {
-      const orderById = await orderServices.delete(id);
-      res.status(200).json({ orderById });
-    } else {
-      res.status(404).json({});
+    try{
+      const data = await orderService.delete(id);
+      if(data) return res.status(200).json();
+      return res.status(404).json({error: "not found"});
+    }catch(error){
+      return res.status(500).json({error: 'internal server error'});
     }
   }
 }
