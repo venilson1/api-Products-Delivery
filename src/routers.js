@@ -25,7 +25,7 @@ router.get("/", HomeController.index);
 
 router.get("/admins", authAdmin, AdminController.findAll);
 router.get("/admins/:id", authAdmin, AdminController.findById);
-router.post("/admins", authAdmin, AdminController.insert);
+router.post("/admins", AdminController.insert);
 router.put("/admins/:id", authAdmin, AdminController.update);
 router.delete("/admins/:id", authAdmin, AdminController.delete);
 

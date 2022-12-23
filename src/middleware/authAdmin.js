@@ -9,15 +9,14 @@ const auth = (req, res, next) => {
   if (authToken) {
     const bearer = authToken.split(" ");
 
-    var token = bearer[1];
+    var token = bearer[1]
 
     jwt.verify(token, JWTSecret, { algorithm: ["RS256"] }, (err, data) => {
       if (err) return res.status(500).json({ auth: false, err: "token inválido" });
 
-      if(data.role.indexOf("admin") == -1) return res.status(401).json({ error: "unauthorized" });
+      if(data.role != 1) return res.status(401).json({ error: "unauthorized" });
         
         req.token = token;
-        console.log(data.role.indexOf("admin") == -1);
         req.loggedName = { name: data.name };
         next();
     });

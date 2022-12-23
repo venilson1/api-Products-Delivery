@@ -32,8 +32,8 @@ class CategoryController {
     try {
       const data = await categoryService.insert(name);
       res.status(200).json(data);
-    } catch (error) {
-      console.log(error);
+    } catch (error){
+      return res.status(500).json(error);
     }
   }
 

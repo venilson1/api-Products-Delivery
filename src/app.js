@@ -10,5 +10,5 @@ connectDB();
 
 app.use(router);
 
-const Port = process.env.Port || 8080;
+const Port = 8080;
 app.listen(Port, () => console.log("Servidor rodando porta 8080"));

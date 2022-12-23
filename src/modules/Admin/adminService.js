@@ -1,10 +1,14 @@
+const knex = require("../../database");
 const Admin = require("./Admin");
 
 class AdminServices {
 
   async findAll() {
     try{
-      const data = await Admin.find({}, { password: 0, __v: false });
+      const data = await knex
+      .select('admins.id', 'admins.name', 'email', 'roles.name as role', 'admins.created_at')
+      .from('admins')
+      .join('roles', 'admins.role_id', '=', 'roles.id')
       return data;
     }catch(error) {
       throw error;
@@ -13,35 +17,34 @@ class AdminServices {
 
   async findById(id) {
     try {
-      const data = await Admin.findById(id).select('-password -__v');
+      const data = await knex.select('admins.id', 'admins.name', 'email', 'roles.name as role', 'admins.created_at')
+      .from('admins')
+      .join('roles', 'admins.role_id', '=', 'roles.id').where('admins.id', id);
+
       return data;
     } catch (error) {
       throw error;
     }
   }
 
-  async insert(name, email, password, role) {
-    const newAdmin = new Admin({ name, email, password, role });
+  async insert(name, email, password, role_id) {
     try{
-      let admin = await newAdmin.save();
-      return admin;
+      const id = await knex('admins').insert({ name, email, password, role_id });
+      return id;
     } catch (e){
       throw e;
     }
   }
 
   async findEmail(email) {
-    const emailExists = await Admin.findOne({ email });
+    const emailExists = await knex.select('*').from('admins').where('email', email);
     return emailExists;
   }
 
-  async update(id, name, email, role) {
-
-    const result = await this.findEmail(email);
-    if(result) throw "e-mail already registered";
+  async update(id, name, email, role_id) {
 
     try{
-      const data = await Admin.findByIdAndUpdate(id, { $set: { id, name, email, role }});
+      const data = await knex('admins').update({id, name, email, role_id}).where({id});
       return data;
     } catch(error){
       throw error;
@@ -50,7 +53,7 @@ class AdminServices {
 
   async delete(id) {
     try{
-      const data = await Admin.findByIdAndDelete(id);
+      const data = await knex('admins').del().where({id});
       return data;
     }catch(error){
       throw error;

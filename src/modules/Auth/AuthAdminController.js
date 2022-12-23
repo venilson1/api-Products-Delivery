@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const Admin = require("../Admin/Admin");
 const jwt = require("jsonwebtoken");
+const knex = require("../../database/index");
 require("dotenv").config();
 
 const JWTSecret = process.env.SECRET_JWT_ADMIN;
@@ -10,15 +11,15 @@ class AuthAdminController {
     const { email, password } = req.body;
 
     if (email != undefined) {
-      const userExists = await Admin.findOne({ email });
+      const userExists = await knex.select('*').from('admins').where('email', email);
 
-      if (userExists) {
+      if (userExists.length > 0) {
         const validPassword = await bcrypt.compare(
           password,
-          userExists.password
+          userExists[0].password
         );
 
-        let payload = { id: userExists._id, name: userExists.name, role: userExists.role };
+        let payload = { id: userExists[0].id, name: userExists[0].name, role: userExists[0].role_id };
 
         if (password !== undefined) {
           if (validPassword) {
@@ -26,7 +27,7 @@ class AuthAdminController {
               if (err) {
                 res.status(400).json({ err: "falha interna" });
               } else {
-                return res.status(200).send({ auth: true, token: token });
+                return res.status(200).send({ auth: true, token: token, expiresIn: '48h' });
               }
             });
           } else {

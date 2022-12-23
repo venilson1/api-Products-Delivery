@@ -27,38 +27,33 @@ class AdminController {
   }
 
   async insert(req, res) {
-    let { name, email, password, role } = req.body;
+    let { name, email, password, role_id } = req.body;
 
     if (!name) return res.status(400).send({ error: "name is invalid" });
     if (!email) return res.status(400).send({ error: "e-mail is invalid" });
     if (!password) return res.status(400).send({ error: "password is invalid" });
-    if (!role && role.indexOf("admin") == -1 || role.indexOf("employee") == -1 ) return res.status(400).send({ error: "role is invalid" });
-
-    let emailExists = await adminService.findEmail(email);
-    if (emailExists) return res.status(406).json({ error: "e-mail already registered" });
+    // if (!role && role.indexOf("admin") == -1 || role.indexOf("employee") == -1 ) return res.status(400).send({ error: "role is invalid" });
 
     try {
       let hash = await bcrypt.hash(password, 10);
-      const data = await adminService.insert(
+      const id = await adminService.insert(
         name,
         email,
         (password = hash),
-        role
+        role_id
       );
-      return res.status(200).json(data);
+      return res.status(200).json({id});
     } catch (error) {
-      return res.status(500).json(error);
+      return res.send(error);
     }
   }
 
   async update(req, res) {
     const id = req.params.id;
-    const { name, email, role } = req.body;
-
-    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
+    const { name, email, role_id } = req.body;
 
     try{
-      const data = await adminService.update(id, name, email, role);
+      const data = await adminService.update(id, name, email, role_id);
       if(data) return res.status(200).json(data);
       return res.status(404).json({error: "not found"});
     }catch(error){
@@ -68,8 +63,6 @@ class AdminController {
 
   async delete(req, res) {
     let id = req.params.id;
-
-    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
 
     try{
       const data = await adminService.delete(id);
