@@ -8,8 +8,8 @@ exports.up = function(knex) {
         table.string('name').notNullable();
         table.text('description').notNullable();
         table.decimal('price').notNullable();
-        table.boolean('promotion').notNullable();
-        table.integer('discount').nullable();
+        table.boolean('promotion').defaultTo(false).notNullable();
+        table.integer('discount').defaultTo(null).nullable();
         table.boolean('active').defaultTo(true).notNullable();
         table.string('path').notNullable();
         table.integer('category_id').unsigned();

@@ -11,8 +11,6 @@ exports.seed = async function(knex) {
       name: 'Coca Cola 2L', 
       description: 'rowValue1', 
       price: 13.99, 
-      promotion: false, 
-      discount: 0, 
       active: true, 
       path: 'rowValue1', 
       category_id: 1
@@ -22,8 +20,6 @@ exports.seed = async function(knex) {
       name: 'Hambuguer X-salada 2.0', 
       description: 'rowValue2', 
       price: 23.99, 
-      promotion: 5, 
-      discount: true, 
       active: true, 
       path: 'rowValue2', 
       category_id: 2
@@ -33,8 +29,6 @@ exports.seed = async function(knex) {
       name: 'Água 500ml', 
       description: 'rowValue3', 
       price: 4.99, 
-      promotion: false, 
-      discount: 0, 
       active: true, 
       path: 'rowValue3', 
       category_id: 1

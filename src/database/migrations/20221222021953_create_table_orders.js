@@ -7,10 +7,10 @@ exports.up = function(knex) {
         table.increments('id');
         table.integer('user_id').unsigned();
         table.foreign('user_id').references('users.id');
-        table.enu('status', ['Pending', 'Received', 'Producing', 'Sent', 'Delivered']).defaultTo('Pending', options={});
+        table.enu('status', ['pending', 'received', 'producing', 'sent', 'delivered']).defaultTo('pending');
         table.decimal('total');
         table.boolean('is_payment').defaultTo(false);
-        table.enu('delivery', ['Balcony', 'Delivery']);
+        table.enu('delivery', ['balcony', 'delivery']);
         table.timestamps(true, true);
     });
 };

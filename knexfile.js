@@ -5,7 +5,7 @@ require("dotenv").config();
 module.exports = {
 
   development: {
-    client: 'mysql2',
+    client: 'pg',
     connection: {
       host: process.env.HOST,
       port: process.env.PORT,
@@ -24,7 +24,7 @@ module.exports = {
   },
 
   staging: {
-    client: 'mysql2',
+    client: 'pg',
     connection: {
       host: process.env.HOST,
       port: process.env.PORT,
@@ -35,7 +35,7 @@ module.exports = {
   },
 
   production: {
-    client: 'mysql2',
+    client: 'pg',
     connection: {
       host: process.env.HOST,
       port: process.env.PORT,
@@ -44,5 +44,4 @@ module.exports = {
       database: process.env.DATABASE
     },
   }
-
 };
