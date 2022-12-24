@@ -1,11 +1,10 @@
-const Product = require("./Product");
-const Review = require("./Review/Review");
+const knex = require("../../database");
 
 class ProductService {
 
   async findAll() {
     try{
-      const data = await Product.find();
+      const data = await knex('products').select('*');
       return data;
     }catch(error) {
       throw error;
@@ -14,35 +13,43 @@ class ProductService {
 
   async findById(id) {
     try {
-      const data = await Product.findById(id).select('-password -__v');
+      const data = await knex('products').select('*').where('id', id);
       return data;
     } catch (error) {
       throw error;
     }
   }
 
-  async insert(name, description, price, promotion, discount, path) {
+  async insert(name, description, price, promotion, discount, path, category_id) {
     
-    const newProduct = new Product({
-      name,
-      description,
-      price,
-      promotion,
-      discount,
-      path,
-    });
     try{
-      const product = newProduct.save();
+      const product = await knex('products').insert({
+        name,
+        description,
+        price,
+        promotion,
+        discount,
+        path,
+        category_id
+      });
       return product;
-    } catch (e){
-      throw e;
+    } catch (error){
+      throw error;
     }
   }
 
-  async update(id, name, description, price, promotion, discount, path) {
+  async update(id, name, description, price, promotion, discount, path, category_id) {
 
     try{
-      const data = await Product.findByIdAndUpdate(id, { $set: {id, name, description, price, promotion, discount, path} });
+      const data = knex('products').update({
+        name,
+        description,
+        price,
+        promotion,
+        discount,
+        path,
+        category_id
+      }).where({id});
       return data;
     }catch(error){
       throw error;
@@ -51,7 +58,7 @@ class ProductService {
 
   async delete(id) {
     try{
-      const data = await Product.findByIdAndDelete(id);
+      const data = await knex('products').del().where({id});
       return data;
     }catch(error){
       throw error;

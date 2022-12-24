@@ -34,7 +34,7 @@ router.get("/products/:id", ProductController.findById);
 // prettier-ignore
 router.post("/products", [authEmployee, upload.single("path")], ProductController.insert);
 // prettier-ignore
-router.patch("/products/:id", [authEmployee, upload.single("path")], ProductController.update);
+router.put("/products/:id", [authEmployee, upload.single("path")], ProductController.update);
 router.delete("/products/:id", authEmployee, ProductController.delete);
 router.get("/products/:id/reviews", ReviewController.findByProduct);
 
