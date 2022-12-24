@@ -36,15 +36,15 @@ class AdminController {
 
     try {
       let hash = await bcrypt.hash(password, 10);
-      const id = await adminService.insert(
+      const data = await adminService.insert(
         name,
         email,
         (password = hash),
         role_id
       );
-      return res.status(200).json({id});
+      return res.status(200).json(data);
     } catch (error) {
-      return res.send(error);
+      return res.status(500).json(error);
     }
   }
 
@@ -54,10 +54,10 @@ class AdminController {
 
     try{
       const data = await adminService.update(id, name, email, role_id);
-      if(data) return res.status(200).json(data);
-      return res.status(404).json({error: "not found"});
+      if(!data) return res.status(404).json({error: "not found"});
+      return res.status(200).json(data);
     }catch(error){
-      return res.status(404).json({error});
+      return res.status(400).json({error});
     }
   }
 

@@ -29,8 +29,8 @@ class AdminServices {
 
   async insert(name, email, password, role_id) {
     try{
-      const id = await knex('admins').insert({ name, email, password, role_id });
-      return id;
+      const data = await knex('admins').insert({ name, email, password, role_id });
+      return data;
     } catch (e){
       throw e;
     }
