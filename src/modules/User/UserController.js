@@ -27,29 +27,36 @@ class UserController {
   }
 
   async insert(req, res) {
-    let { name, address, complement, reference, email, password, telephone } = req.body;
+    let { first_name, last_name, address, complement, reference_point, cpf, email, password, cell_phone } = req.body;
 
-    if (!name) return res.status(400).send({ err: "name is invalid" });
+
+    if (!first_name) return res.status(400).send({ err: "first name is invalid" });
+    if (!last_name) return res.status(400).send({ err: "last name is invalid" });
     if (!address) return res.status(400).send({ err: "adress is invalid" });
     if (!complement) return res.status(400).send({ err: "complement place is invalid" });
-    if (!reference) return res.status(400).send({ err: "reference place is invalid" });
+    if (!reference_point) return res.status(400).send({ err: "reference point is invalid" });
+    if (!cpf) return res.status(400).send({ err: "cpf is invalid" });
     if (!email) return res.status(400).send({ err: "email is invalid" });
     if (!password) return res.status(400).send({ err: "password is invalid" });
-    if (!telephone) return res.status(400).send({ err: "telephone is invalid" });
+    if (!cell_phone) return res.status(400).send({ err: "telephone is invalid" });
 
-    let emailExists = await userService.findEmail(email);
-    if (emailExists) return res.status(406).json({ error: "e-mail already registered" });
 
     try {
       let hash = await bcrypt.hash(password, 10);
+
+      const role_id = 3;
+
       const data = await userService.insert(
-        name,
+        first_name, 
+        last_name,
         address,
         complement,
-        reference,
+        reference_point,
+        cpf,
         email,
         (password = hash),
-        telephone
+        cell_phone,
+        role_id
       );
       return res.status(200).json(data);
     } catch (error) {
@@ -59,19 +66,33 @@ class UserController {
 
   async update(req, res) {
     const id = req.params.id;
-    const { name, address, complement, reference, email, telephone } = req.body;
+    let { first_name, last_name, address, complement, reference_point, cpf, email, password, cell_phone } = req.body;
 
-    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
+    if (!first_name) return res.status(400).send({ err: "first name is invalid" });
+    if (!last_name) return res.status(400).send({ err: "last name is invalid" });
+    if (!address) return res.status(400).send({ err: "adress is invalid" });
+    if (!complement) return res.status(400).send({ err: "complement place is invalid" });
+    if (!reference_point) return res.status(400).send({ err: "reference point is invalid" });
+    if (!cpf) return res.status(400).send({ err: "cpf is invalid" });
+    if (!email) return res.status(400).send({ err: "email is invalid" });
+    if (!password) return res.status(400).send({ err: "password is invalid" });
+    if (!cell_phone) return res.status(400).send({ err: "telephone is invalid" });
+
 
     try{
+      let hash = await bcrypt.hash(password, 10);
+
       const data = await userService.update(
         id,
-        name,
+        first_name, 
+        last_name,
         address,
         complement,
-        reference,
+        reference_point,
+        cpf,
         email,
-        telephone
+        (password = hash),
+        cell_phone,
       );
 
       if(data) return res.status(200).json(data);
@@ -85,14 +106,12 @@ class UserController {
   async delete(req, res) {
     let id = req.params.id;
 
-    if (id.match(/^[0-9a-fA-F]{24}$/) == null) return res.status(404).json({error: 'Id is not valid'});
-
     try{
-      await userService.delete(id);
+      const data = await userService.delete(id);
       if(data) return res.status(200).json();
       return res.status(404).json({error: "not found"});
     }catch(error){
-      return res.status(500).json({error: 'internal server error'});
+      return res.status(500).json(error);
     }
   }
 

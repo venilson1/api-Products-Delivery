@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const Admin = require("../Admin/Admin");
 const jwt = require("jsonwebtoken");
 const knex = require("../../database/index");
 require("dotenv").config();
@@ -10,7 +9,7 @@ class AuthAdminController {
   async login(req, res) {
     const { email, password } = req.body;
 
-    if (email != undefined) {
+    if (email) {
       const userExists = await knex.select('*').from('admins').where('email', email);
 
       if (userExists.length > 0) {

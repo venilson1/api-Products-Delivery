@@ -14,12 +14,11 @@ const auth = (req, res, next) => {
     jwt.verify(token, JWTSecret, { algorithm: ["RS256"] }, (err, data) => {
       if (err) return res.status(500).json({ auth: false, err: "token inválido" });
 
-      if(data.role.indexOf("admin") == -1 && data.role.indexOf("employee") == -1) return res.status(401).json({ error: "unauthorized" });
-        
-        req.token = token;
-        console.log(data.role.indexOf("admin") == -1);
-        req.loggedName = { name: data.name };
-        next();
+      if(data.role != 1 && data.role != 2) return res.status(401).json({ error: "unauthorized" }); 
+    
+      req.token = token;
+      req.loggedName = { name: data.name };
+      next();
     });
   } else {
     res.status(401).json({ err: "token invalido" });

@@ -1,10 +1,12 @@
-const User = require("./User");
+const knex = require("../../database");
 
 class UserService {
 
   async findAll() {
     try{
-      const data = await User.find({}, { password: 0, __v: false });
+      const data = await knex
+      .select('id', 'first_name','last_name', 'address', 'complement', 'reference_point', 'email', 'cpf', 'cell_phone', 'created_at')
+      .from('users').where('deleted_at', null);
       return data;
     }catch(error) {
       throw error;
@@ -13,7 +15,9 @@ class UserService {
 
   async findById(id) {
     try {
-      const data = await User.findById(id).select('-password -__v');
+      const data = await knex('users')
+      .select('id', 'first_name','last_name', 'address', 'complement', 'reference_point', 'email', 'cpf', 'cell_phone', 'created_at')
+      .where('id', id).where('deleted_at', null);
       return data;
     } catch (error) {
       throw error;
@@ -21,24 +25,32 @@ class UserService {
   }
 
   async insert(    
-    name,
+    first_name,
+    last_name,
     address,
     complement,
-    reference,
+    reference_point,
+    cpf,
     email,
     password,
-    telephone) {
-    const newUser = new User({
-      name,
-      address,
-      complement,
-      reference,
-      email,
-      password,
-      telephone,
-    });
+    cell_phone,
+    role_id
+    ) {
+
     try{
-      let user = await newUser.save();
+      let user = await knex('users').insert(
+        { 
+          first_name,
+          last_name,
+          address,
+          complement,
+          reference_point,
+          cpf,
+          email,
+          password,
+          cell_phone,
+          role_id
+        });
       return user;
     } catch (e){
       throw e;
@@ -46,19 +58,35 @@ class UserService {
   }
 
   async findEmail(email) {
-    const emailExists = await User.findOne({ email });
+    const emailExists = await knex.select('*').from('users').where({email});
     return emailExists;
   }
 
-  async update(id, name, address, complement, reference, email, telephone) {
-
-    // const result = await this.findEmail(email);
-    // if (result) throw "e-mail already registered";
+  async update(
+    id,
+    first_name, 
+    last_name,
+    address,
+    complement,
+    reference_point,
+    cpf,
+    email,
+    password,
+    cell_phone,
+  ) {
 
     try{
-      const data = await User
-        .findByIdAndUpdate(id, { $set: { id, name, address, complement, reference, email, telephone }})
-        .select('-password -__v');
+      const data = await knex('users').update({
+        first_name, 
+        last_name,
+        address,
+        complement,
+        reference_point,
+        cpf,
+        email,
+        password,
+        cell_phone,
+      }).where({id});
       return data;
     } catch(error){
       throw error;
@@ -67,7 +95,7 @@ class UserService {
 
   async delete(id) {
     try{
-      const data = await User.findByIdAndDelete(id);
+      const data = await knex('users').where({id}).update('deleted_at', new Date());
       return data;
     }catch(error){
       throw error;
@@ -76,7 +104,9 @@ class UserService {
 
   async findMe(id){
     try{
-      const data = await User.findById(id);
+      const data = await knex('users')
+      .select('id', 'first_name','last_name', 'address', 'complement', 'reference_point', 'email', 'cpf', 'cell_phone', 'created_at')
+      .where('id', id).where('deleted_at', null);
       return data;
     }catch(error){
       throw error;

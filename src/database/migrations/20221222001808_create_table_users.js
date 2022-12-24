@@ -9,16 +9,17 @@ exports.up = function(knex) {
     table.string('last_name').notNullable();
     table.string('address').notNullable();
     table.string('complement').nullable();
-    table.string('reference').nullable();
+    table.string('reference_point').nullable();
     table.string('email').notNullable().unique();
     table.string('cpf', 11).notNullable().unique();
     table.string('password').notNullable();
-    table.string('telephone').notNullable().unique();
-    table.integer('role_id').unsigned();
-    table.foreign('role_id').references('roles.id').onUpdate('CASCADE').onUpdate('CASCADE');
+    table.string('cell_phone').notNullable().unique();
+    table.integer('role_id').unsigned().nullable();
+    table.foreign('role_id').references('roles.id').onUpdate('CASCADE').onDelete('CASCADE');
     table.string('password_reset_token').nullable();
     table.date('password_reset_expires').nullable();
     table.timestamps(true, true);
+    table.dateTime('deleted_at').defaultTo(null);
   })
 };
 

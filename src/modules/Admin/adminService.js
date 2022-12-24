@@ -1,5 +1,4 @@
 const knex = require("../../database");
-const Admin = require("./Admin");
 
 class AdminServices {
 
@@ -8,7 +7,7 @@ class AdminServices {
       const data = await knex
       .select('admins.id', 'admins.name', 'email', 'roles.name as role', 'admins.created_at')
       .from('admins')
-      .join('roles', 'admins.role_id', '=', 'roles.id')
+      .join('roles', 'admins.role_id', '=', 'roles.id');
       return data;
     }catch(error) {
       throw error;
