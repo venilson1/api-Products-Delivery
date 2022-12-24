@@ -15,6 +15,7 @@ const auth = (req, res, next) => {
       if (err) return res.status(500).json({ auth: false, err: "token inválido" });
 
       if(data.role != 3) return res.status(401).json({ error: "unauthorized" });
+      if(data.role != 1 && data.role != 2 && data.role != 2) return res.status(401).json({ error: "unauthorized" }); 
         
         req.token = token;
         req.data = data;

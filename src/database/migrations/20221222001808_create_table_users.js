@@ -17,9 +17,9 @@ exports.up = function(knex) {
     table.integer('role_id').unsigned().nullable();
     table.foreign('role_id').references('roles.id').onUpdate('CASCADE').onDelete('CASCADE');
     table.string('password_reset_token').nullable();
-    table.date('password_reset_expires').nullable();
+    table.datetime('password_reset_expires').nullable();
     table.timestamps(true, true);
-    table.dateTime('deleted_at').defaultTo(null);
+    table.datetime('deleted_at').defaultTo(null);
   })
 };
 

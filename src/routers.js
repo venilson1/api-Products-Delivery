@@ -18,8 +18,8 @@ const reviewService = require("./modules/Product/Review/reviewService");
 
 router.post("/auth/admin", AuthAdminController.login);
 router.post("/auth/user", AuthUserController.login);
-router.post("/forgot_password", ForgotPasswordController.forgot);
-router.post("/reset_password", ForgotPasswordController.reset);
+router.post("/auth/forgot_password", ForgotPasswordController.forgot);
+router.post("/auth/reset_password", ForgotPasswordController.reset);
 
 router.get("/", HomeController.index);
 

@@ -5,28 +5,22 @@ const mailer = require("../../configs/mailer");
 const bcrypt = require("bcrypt");
 
 class ForgotPasswordController {
+  
   async forgot(req, res) {
     const { email } = req.body;
 
     try {
-      const client = await UserService.findEmail(email);
+      const user = await UserService.findEmail(email);
 
-      if (!client) {
-        return res.status(400).json({ error: "cliente não encontrado" });
-      }
+      if (!user) return res.status(400).json({ error: "usuário não encontrado" });
 
       const token = crypto.randomBytes(20).toString("HEX");
 
-      //expiração do  token
+      //expiração do token
       const now = new Date();
       now.setHours(now.getHours() + 1);
 
-      await Client.findByIdAndUpdate(client.id, {
-        $set: {
-          passwordResetToken: token,
-          passwordResetExpires: now,
-        },
-      });
+      await UserService.updateForgotPassword(user[0].id, token, now);
 
       mailer.sendMail(
         {
@@ -47,7 +41,7 @@ class ForgotPasswordController {
         }
       );
     } catch (error) {
-      res.status(400).json({ err: "erro ao resetar a senha, tente novamente" });
+      res.status(400).json({ err: "Usuário Não encontrado!" });
     }
   }
 
@@ -55,30 +49,20 @@ class ForgotPasswordController {
     const { email, password, token } = req.body;
 
     try {
-      const client = await Client.findOne({ email }).select(
-        "+passwordResetToken passwordResetExpires"
-      );
 
-      if (!client) {
-        return res.status(400).json({ error: "cliente não encontrado" });
-      }
+      const user = await UserService.findCredentials(email);
 
-      if (token !== client.passwordResetToken) {
-        return res.status(400).json({ error: "token invalido" });
-      }
+      if (!user) return res.status(400).json({ error: "usuario não encontrado" });
 
-      const now = new Date();
-
-      if (now > client.passwordResetExpires) {
-        return res.status(400).json({ error: "token expirado" });
-      }
+      if (token != user[0].password_reset_token) return res.status(400).json({ error: "token invalido" });
+      
+      if (new Date() > user[0].password_reset_expires) return res.status(400).json({ error: "token expirado" });
 
       let hash = await bcrypt.hash(password, 10);
-      client.password = hash;
 
-      await client.save();
+      const data = await UserService.updatePassword(user[0].id, hash);
 
-      res.status(200).send(client);
+      res.status(200).json(data);
     } catch (error) {
       res
         .status(400)

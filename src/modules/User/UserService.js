@@ -112,6 +112,41 @@ class UserService {
       throw error;
     }
   }
+
+
+  async updateForgotPassword(id, password_reset_token, password_reset_expires) {
+    try{
+      const data = await knex('users').where({id}).update({
+        password_reset_token,
+        password_reset_expires
+      });
+      return data;
+    }catch(error){
+      throw error;
+    }
+  }
+
+  async findCredentials(email) {
+    try{
+      const data = await knex
+      .select('id', 'password_reset_token', 'password_reset_expires')
+      .from('users').where({email}).where('deleted_at', null);;
+      return data;
+    }catch(error) {
+      throw error;
+    }
+  }
+
+  async updatePassword(id, password) {
+    try{
+      const data = await knex('users').where({id}).update({password});
+      return data;
+    }catch(error){
+      throw error;
+    }
+  }
+
+  
 }
 
 module.exports = new UserService();
