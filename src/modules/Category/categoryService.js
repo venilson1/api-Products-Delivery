@@ -1,9 +1,9 @@
-const Category = require("./Category");
+const knex = require("../../database");
 
 class CategoryService {
   async findAll() {
     try{
-      const data = await Category.find();
+      const data = await knex('categories').select('*');
       return data;
     }catch(error) {
       throw error;
@@ -12,7 +12,7 @@ class CategoryService {
 
   async findById(id) {
     try {
-      const data = await Category.findById(id);
+      const data = await knex('categories').select('*').where('id', id);
       return data;
     } catch (error) {
       throw error;
@@ -20,9 +20,8 @@ class CategoryService {
   }
 
   async insert(name) {
-    const newCategory = new Category({name});
     try {
-      let data = await newCategory.save();
+      let data = await knex('categories').insert({name});
       return data;
     } catch (error) {
       throw error;
@@ -31,7 +30,7 @@ class CategoryService {
 
   async update(id, name) {
     try{
-      const data = await Category.findByIdAndUpdate(id, { $set: { id, name }});
+      const data = knex('categories').update({name}).where({id});
       return data;
     } catch(error){
       throw error;
@@ -40,7 +39,7 @@ class CategoryService {
 
   async delete(id) {
     try{
-      const data = await Category.findByIdAndDelete(id);
+      const data = await knex('categories').del().where({id});
       return data;
     }catch(error){
       throw error;
