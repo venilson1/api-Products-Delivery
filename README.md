@@ -11,10 +11,23 @@ Caso você tenha o Docker instalado em sua máquina pode está baixando a imagem
 docker run -p 5433:5432 --name postgressql -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root postgres:12-alpine
 ```
 
-### Configuração Padrão do AppSettings
+### Configuração .env
 
 ```
-server=localhost;database=car_catalog;user=sa;password=Root@2022
+SECRET_JWT_ADMIN=
+SECRET_JWT_USER=
+MONGODBATLAS_URI=
+CLOUDINARY_NAME=
+CLOUDINARY_KEY=
+CLOUDINARY_SECRET=
+MAILER_USER=
+MAILER_PASS=
+HOST=
+PORT=
+DATABASE=
+USER=
+PASSWORD=
+
 ```
 
 # Rodando Migrations do knexJs
