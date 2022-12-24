@@ -1,46 +1,15 @@
 const Order = require("./Order");
 const thermalPrinter = require("../../configs/thermalPrinter");
+const knex = require("../../database");
 
 class OrderService {
   
-  async findByDate(date) {
+  async findAll() {
     try {
-      const data = await Order.find({
-        createdAt: {
-            $gte: `${date}T00:00:00.000Z`, 
-            $lt: `${date}T23:59:59.999Z`
-        }
-    }).populate({
-      path: 'products.id',
-      select: "name price"
-    }).populate({
-      path: "user",
-      select: "name email adress complement reference telephone"
-    });
 
-    var newData = [];
+      const data = await knex('orders').select('*');
 
-    data.forEach(el => {
-      var obj = {products : []};
-      obj._id = el._id
-      obj.user = el.user
-      obj.status = el.status
-      obj.isPayment = el.isPayment
-      obj.delivery = el.delivery
-      obj.createdAt = el.createdAt
-      el.products.forEach(pro => {
-        const { _id, name, price} = pro.id;
-        let quantity = pro.quantity;
-        obj.products.push({ _id, name, price, quantity });
-        obj.total = obj.products.map(sum => sum.price * sum.quantity);
-      });
-      obj.total = obj.total.reduce(function(soma, i) {
-        return soma + i;
-    });
-      newData.push(obj);
-    });
-
-      return newData;
+      return data;
     } catch (error) {
       throw error;
     }
@@ -48,18 +17,28 @@ class OrderService {
 
   async findById(id) {
     try {
-      const data = await Order.findById(id).select('-__v');
+      const data = await knex('orders').select('id', 'status', 'total', 'is_payment', 'delivery', 'created_at').where({id});
+
+      const products = await knex.raw(`
+      SELECT products_orders.id, quantity, products.name, (quantity * price) AS total
+      FROM orders
+      INNER JOIN users ON orders.user_id = users.id
+      INNER JOIN products_orders ON products_orders.order_id = orders.id
+      INNER JOIN products ON products_orders.product_id = products.id
+      WHERE orders.id = ${id}`);
+
+      data[0].products = products.rows;
+
       return data;
     } catch (error) {
       throw error;
     }
   }
 
-  async insert(user, products, delivery) {
+  async insert(user_id, total, delivery) {
 
-    const newOrder = new Order({ user, products, delivery });
     try{
-      const order = await newOrder.save();
+      const order = await knex('orders').insert({user_id, total, delivery}).returning('id');
       return order;
     } catch (error){
       throw error;
@@ -71,6 +50,19 @@ class OrderService {
       const data = await Admin.findByIdAndDelete(id);
       return data;
     }catch(error){
+      throw error;
+    }
+  }
+
+
+  async insertProductsOrders(order_id, products) {
+
+    const fieldsToInsert = products.map(field => 
+      ({ order_id, product_id: field.id, quantity: field.quantity })); 
+
+    try{
+      await knex('products_orders').insert(fieldsToInsert);
+    } catch (error){
       throw error;
     }
   }

@@ -64,6 +64,30 @@ class ProductService {
       throw error;
     }
   }
+
+  async findTotal(products) {
+
+    const ids = [];
+    products.forEach(el => ids.push(el.id));
+
+    try{
+      const data = await knex('products').select('id', 'price').whereIn('id', ids);
+
+      let total = 0;
+      data.forEach(el => {
+        products.forEach(pro => {
+          if(el.id == pro.id){
+            total += parseFloat(el.price) * pro.quantity
+          }
+        })
+      });
+
+      return parseFloat(total.toFixed(2));
+    }catch(error) {
+      throw error;
+    }
+  }
 }
+
 
 module.exports = new ProductService();

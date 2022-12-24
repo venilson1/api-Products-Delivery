@@ -47,7 +47,8 @@ router.post("/users", UserController.insert);
 router.put("/users/:id", UserController.update);
 router.delete("/users/:id", authEmployee, UserController.delete);
 
-router.get("/orders/:date?", OrderController.findByDate);
+// router.get("/orders/:date?", OrderController.findByDate);
+router.get("/orders", OrderController.findAll);
 router.get("/orders/:id", OrderController.findById);
 router.post("/orders", OrderController.insert);
 router.delete("/orders/:id", OrderController.delete);
