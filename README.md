@@ -2,7 +2,7 @@
 
 Projeto de Delivery de pizzaria,
 
-# Configuração
+### Configuração
 
 Caso você tenha o Docker instalado em sua máquina pode está baixando a imagem do postgres
 
@@ -30,13 +30,13 @@ PASSWORD=
 
 ```
 
-# Rodando Migrations do knexJs
+### Rodando Migrations do knexJs
 
 ```
  npx knex migrate:latest
 ```
 
-# Rodando Seeds do knexJs (Opcional)
+### Rodando Seeds do knexJs (Opcional)
 
 ```
  npx knex seed:run
@@ -50,13 +50,18 @@ PASSWORD=
 
 `yarn dev`
 
+## Serviços
+
+- [Cloudinary](https://cloudinary.com/)
+- [NodeMailer](https://nodemailer.com/about/)
+- [Thermal Printer](https://www.npmjs.com/package/js-thermal-printer)
+
+
 ## Tecnologias
 
 - [NodeJs](https://dotnet.microsoft.com/en-us/)
 - [Docker](https://www.docker.com/)
 - [KnexJs](https://knexjs.org/)
 - [Jwt](https://jwt.io/)
-- [NodeMailer](https://nodemailer.com/about/)
-- [Cloudinary](https://cloudinary.com/)
-- [Thermal Printer](https://www.npmjs.com/package/js-thermal-printer)
+
 
